@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Atom 2K26 - About</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/base.css">
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Overlock:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ================= BODY ================= */
+    body {
+      font-family: 'Overlock', cursive;
+      color: white;
+      overflow-x: hidden;
+      background:
+        linear-gradient(rgba(10, 10, 30, 0.78), rgba(10, 10, 30, 0.92)),
+        url("../assets/images/bg_home.jpg") center/cover no-repeat;
+    }
+
+    /* ================= WRAPPER ================= */
+    .about-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .about-section {
+      margin-bottom: 100px;
+    }
+
+    /* ================= FLEX ================= */
+    .about-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 50px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* reverse for ATOM */
+    .about-flex.reverse {
+      flex-direction: row-reverse;
+    }
+
+    /* ================= IMAGE ================= */
+    .about-image {
+      flex: 1 1 45%;
+      min-width: 320px;
+      text-align: center;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 16px;
+      border: 2px solid #d4af37;
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(212, 175, 55, 0.4);
+      object-fit: cover;
+      /* Prevents distortion */
+    }
+
+    /* Specific for square logo/atom image */
+    .about-image img.sq-img {
+      aspect-ratio: 1/1;
+      max-width: 420px;
+    }
+
+    /* ================= TEXT ================= */
+    .about-text {
+      flex: 1 1 50%;
+      min-width: 320px;
+    }
+
+    .about-text h2 {
+      color: #d4af37;
+      font-size: 2.2rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .about-text p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    /* ================= TITLE ================= */
+    .atom-text {
+      font-family: 'Cinzel Decorative', serif;
+      background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+    }
+
+
+
+
+    /* ================= MOBILE PERFECT ORDER ================= */
+    @media (max-width:768px) {
+
+      /* stack clean */
+      .about-flex,
+      .about-flex.reverse {
+        flex-direction: column !important;
+        gap: 22px;
+        text-align: center;
+      }
+
+      /* ⭐ FORCE ORDER */
+      .about-text {
+        order: 1;
+      }
+
+      .about-image {
+        order: 2;
+      }
+
+      /* ================= MOBILE TYPOGRAPHY ================= */
+
+      /* title smaller */
+      .title {
+        font-size: 2rem !important;
+      }
+
+      /* section heading */
+      .about-text h2 {
+        font-size: 1.4rem !important;
+        text-transform: none !important;
+        /* ⭐ remove caps */
+      }
+
+      /* paragraph */
+      .about-text p {
+        font-size: 0.95rem !important;
+        line-height: 1.7;
+        text-transform: none !important;
+        /* ⭐ lowercase normal */
+        text-align: center;
+      }
+
+      .about-section {
+        margin-bottom: 60px;
+      }
+
+    }
+  </style>
+</head>
+
+<body class="font-scaled">
+
+  <div class="fog"></div>
+  <div class="sparkle"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+
+    <div class="nav-left">
+      <a href="https://www.psgtech.edu/" target="_blank">
+        <img src="../assets/images/psg.png" class="nav-logo" alt="PSG">
+      </a>
+      <img src="../assets/images/75yearsLogo_PSGCollegeofTech.png" class="nav-logo-large logo-white"
+        alt="75 Years PSG Tech">
+      <img src="../assets/images/100yearsLogo_PsgSonsCharities.png" class="nav-logo-large logo-white"
+        alt="100 Years PSG Sons">
+      <a href="https://www.psgtech.edu/dept/ece/ieee/" target="_blank">
+        <img src="../assets/images/ieee logo.png" class="nav-logo2" alt="IEEE">
+      </a>
+    </div>
+
+    <!-- ⭐ HAMBURGER -->
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a class="active" href="#">About</a></li>
+      <li><a href="contacts.html">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+
+  </nav>
+
+  <!-- ================= ABOUT SECTION ================= -->
+  <section class="hero" style="padding:140px 20px 60px;">
+
+    <div class="about-wrapper">
+
+      <h1 class="title" style="text-align:center; margin-bottom:60px;">
+        <span class="atom-text">About</span>
+        <span class="atom-text">Us</span>
+      </h1>
+
+      <!-- ================= IEEE ================= -->
+      <div class="about-section">
+        <div class="about-flex">
+
+          <!-- IMAGE LEFT -->
+          <div class="about-image">
+            <img src="../assets/images/psgtech.webp" alt="PSG College of Technology Historic Main Building">
+          </div>
+
+          <!-- TEXT RIGHT -->
+          <div class="about-text">
+            <h2>IEEE Students Chapter 12951</h2>
+            <p>
+              IEEE SC 12951 at PSG College of Technology was initiated in 1977.
+              It was started to involve the students in research and encourage
+              new ideas in their respective fields. PSG has always been known
+              for setting benchmarks in terms of quality of engineering and is
+              one of the first and foremost institutions to have a Students
+              branch of IEEE. The IEEE Students Chapter of PSG Tech has been
+              actively involved in organizing top-notch technical fests every
+              year, sparking the interest and involvement of students from
+              various parts of the country. It is the largest technical
+              association at PSG College of Technology.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ================= ATOM ================= -->
+      <div class="about-section">
+        <div class="about-flex reverse">
+
+          <!-- IMAGE RIGHT -->
+          <div class="about-image">
+            <img src="../assets/images/atom.png" class="sq-img" alt="ATOM 2K26 Event Poster">
+          </div>
+
+          <!-- TEXT LEFT -->
+          <div class="about-text">
+            <h2>ATOM 2K26</h2>
+
+            <p>
+              ATOM 2K26 is the flagship technical symposium organized by the IEEE Students Chapter 12951 of <b></b>PSG
+                College
+                of
+                Technology</b>. This edition promises to be a grand celebration of innovation, creativity, and
+              cutting-edge
+              technology.
+            </p>
+
+            <p>
+              Scheduled to take place in March 2026, ATOM is an intracollege event exclusively involving students from
+              <b>PSG
+                College of Technology</b> and <b>PSG Institute of Technology and Applied Research</b>. The symposium
+              brings together
+              aspiring engineers, innovators, and technology enthusiasts to participate in a diverse range of technical
+              and non-technical events.
+            </p>
+
+            <p>
+              With the theme <b>“Unleash the Magic Within”</b>, ATOM 2K26 blends technical excellence with an immersive
+              and
+              magical experience, creating an inspiring and memorable journey for every participant.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ✅ GLOBAL SCRIPT (MUST BE LAST) -->
+  <script src="../js/global.js"></script>
+
+</body>
+
+</html>

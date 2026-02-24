@@ -1,0 +1,344 @@
+/* ================= BODY ================= */
+body {
+  background: linear-gradient(rgba(10, 10, 30, 0.72), rgba(10, 10, 30, 0.88)),
+    url("../assets/images/bg.jpg") center/cover no-repeat fixed;
+  font-family: 'Cinzel', serif;
+  color: white;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: rgba(10, 10, 30, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, #5a4300, #d4af37, #fff3a0, #d4af37, #5a4300) 1;
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;
+  z-index: 5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 20px 20px;
+  /* ← very small bottom padding */
+}
+
+.book-box {
+  width: 90%;
+  max-width: 1100px;
+  padding: 50px 30px;
+  text-align: center;
+}
+
+.title {
+  font-size: 4.2rem;
+  margin: 0 0 0.6rem;
+  margin-top: -150px;
+  line-height: 0.95;
+}
+
+.atom-text {
+  font-family: 'Cinzel Decorative', serif;
+  background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.45);
+}
+
+.date {
+  font-size: 1.9rem;
+  color: #ffe27a;
+  margin: 1.2rem 0 2.5rem;
+  letter-spacing: 1px;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 1.1rem;
+  margin-bottom: 2.2rem;
+  flex-wrap: wrap;
+}
+
+.time-box {
+  background: transparent;
+  padding: 1.1rem 1.6rem;
+  border-radius: 12px;
+  min-width: 95px;
+  border: 1px solid #b8860b;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.55);
+}
+
+.time-box span {
+  font-size: 2.3rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, #d4af37, #fff3a0, #b8860b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.time-box p {
+  font-size: 0.85rem;
+  color: #d4af37;
+  margin-top: 0.35rem;
+}
+
+.gold-btn {
+  display: inline-block;
+  padding: 8px 48px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffe27a;
+  background: linear-gradient(145deg, #2a0000, #7a0000, #b30000, #7a0000, #2a0000);
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #4a3500, #d4af37, #fff3a0, #d4af37, #4a3500) 1;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-bottom: 8px;
+  /* ← very small space under button */
+}
+
+.gold-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.55);
+}
+
+/* ================= FEATURED EVENTS – CAROUSEL ================= */
+.featured-events {
+  padding: 0 20px 80px;
+  /* ← top = 0 → almost no gap */
+  text-align: center;
+  margin-top: -245px;
+}
+
+.category-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.5rem;
+  padding: 2rem;
+  margin: 0.4rem 0 2rem;
+  /* ← very small top margin */
+  letter-spacing: 2.5px;
+  background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.horizontal-scroller {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.events-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 35px;
+  animation: scroll-left 28s linear infinite;
+  will-change: transform;
+}
+
+.event-card {
+  flex: 0 0 280px;
+  background: rgba(15, 15, 35, 0.88);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.65),
+    0 0 22px rgba(120, 80, 255, 0.22);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: floatCard 6.5s ease-in-out infinite;
+}
+
+.event-card:nth-child(2) {
+  animation-delay: 0.9s;
+}
+
+.event-card:nth-child(3) {
+  animation-delay: 1.8s;
+}
+
+.event-card:nth-child(4) {
+  animation-delay: 0.5s;
+}
+
+.event-card:nth-child(5) {
+  animation-delay: 1.3s;
+}
+
+@keyframes floatCard {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+.event-card:hover {
+  transform: translateY(-13px) scale(1.04);
+  box-shadow: 0 22px 65px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(212, 175, 55, 0.4);
+}
+
+.event-card img {
+  width: 100%;
+  height: 185px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.card-content h3 {
+  margin-bottom: 8px;
+  color: #ffe27a;
+  font-size: 1.35rem;
+}
+
+.card-content p {
+  font-size: 0.9rem;
+  opacity: 0.88;
+  margin-bottom: 1rem;
+}
+
+.view-btn {
+  display: inline-block;
+  padding: 7px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #ffe27a;
+  text-decoration: none;
+  font-size: 0.9rem;
+  background: linear-gradient(145deg, #2a0000, #7a0000, #b30000, #7a0000, #2a0000);
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #4a3500, #d4af37, #fff3a0, #d4af37, #4a3500) 1;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.horizontal-scroller:hover .events-track {
+  animation-play-state: paused;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .hero {
+    padding: 90px 15px 20px;
+    /* tighter on mobile too */
+  }
+
+  .book-box {
+    padding: 40px 20px;
+  }
+
+  .title {
+    font-size: 2.8rem;
+  }
+
+  .date {
+    font-size: 1.35rem;
+    margin: 1rem 0 1.8rem;
+  }
+
+  .countdown {
+    gap: 8px;
+    margin-bottom: 1.8rem;
+  }
+
+  .time-box {
+    padding: 9px 11px;
+    min-width: 58px;
+  }
+
+  .time-box span {
+    font-size: 1.35rem;
+  }
+
+  .time-box p {
+    font-size: 0.68rem;
+  }
+
+  .gold-btn {
+    padding: 5px 36px;
+    font-size: 1rem;
+    width: 75%;
+    max-width: 280px;
+    margin-bottom: 6px;
+    /* even smaller on mobile */
+  }
+
+  .featured-events {
+    padding: 0 15px 60px;
+    margin-top: -190px;
+    /* top = 0 */
+  }
+
+  .category-title {
+    font-size: 1rem;
+    margin: 0.3rem 0 1.2rem;
+    /* very tight */
+  }
+
+  .events-track {
+    gap: 25px;
+  }
+
+  .event-card {
+    flex: 0 0 240px;
+  }
+
+  .event-card img {
+    height: 160px;
+  }
+
+  .card-content {
+    padding: 16px;
+  }
+
+  .card-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .card-content p {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.4rem;
+  }
+
+  .time-box {
+    min-width: 52px;
+    padding: 8px 9px;
+  }
+
+  .time-box span {
+    font-size: 1.15rem;
+  }
+}

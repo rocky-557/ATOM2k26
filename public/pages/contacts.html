@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ATOM 2K26 | Contact Us</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/base.css">
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Overlock:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ================= SECTION ================= */
+    body {
+      font-family: 'Overlock', cursive;
+      color: white;
+      overflow-x: hidden;
+
+      background:
+        linear-gradient(rgba(10, 10, 40, 0.88), rgba(10, 10, 40, 0.95)),
+        url("../assets/images/bg_home.jpg") center/cover no-repeat fixed;
+    }
+
+    .events-hero {
+      padding: 120px 20px 60px;
+      min-height: 80vh;
+    }
+
+    .contact-title {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 3rem;
+      letter-spacing: 3px;
+    }
+
+    /* ⭐ RESPONSIVE GRID LAYOUT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ================= CARD ================= */
+    .contact-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid #d4af37;
+      /* thinner */
+      border-radius: 12px;
+      padding: 18px 18px;
+      text-align: center;
+
+      backdrop-filter: blur(10px);
+
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.45);
+
+      transition: all 0.35s ease;
+      height: fit-content;
+      width: auto;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-6px);
+      box-shadow:
+        0 18px 40px rgba(212, 175, 55, 0.25);
+    }
+
+    /* ================= TEXT ================= */
+    .contact-name {
+      font-family: 'Overlock', cursive;
+      font-size: 1.6rem;
+      color: #fff3a0;
+      margin-bottom: 6px;
+      font-weight: 450;
+    }
+
+    .contact-roll {
+      font-size: 1rem;
+      color: #b8860b;
+      margin-bottom: 12px;
+    }
+
+    /* ================= PHONE ================= */
+    .contact-phone {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.15rem;
+      color: #ffdd88;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .contact-phone:hover {
+      color: #fff3a0;
+      text-shadow: 0 0 12px #ffd700;
+    }
+
+    .phone-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ================= INSTAGRAM ================= */
+    .insta-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .insta-icon {
+      width: 42px;
+      height: 42px;
+    }
+
+    .insta-link {
+      color: #ffdd88;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+
+    .insta-link:hover {
+      color: #fff3a0;
+      text-shadow: 0 0 12px #ffd700;
+    }
+
+    /* ================= MOBILE ================= */
+    @media (max-width:768px) {
+      .contact-title {
+        font-size: 2.2rem;
+      }
+
+      .contact-name {
+        font-size: 1.35rem;
+      }
+
+      .contact-phone {
+        font-size: 1rem;
+      }
+    }
+
+    /* title gradient */
+    .atom-text {
+      font-family: 'Cinzel Decorative', serif;
+      background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+
+<body class="font-scaled">
+
+  <div class="fog"></div>
+  <div class="sparkle"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+
+    <div class="nav-left">
+      <a href="https://www.psgtech.edu/" target="_blank">
+        <img src="../assets/images/psg.png" class="nav-logo" alt="PSG">
+      </a>
+      <img src="../assets/images/75yearsLogo_PSGCollegeofTech.png" class="nav-logo-large logo-white"
+        alt="75 Years PSG Tech">
+      <img src="../assets/images/100yearsLogo_PsgSonsCharities.png" class="nav-logo-large logo-white"
+        alt="100 Years PSG Sons">
+      <a href="https://www.psgtech.edu/dept/ece/ieee/" target="_blank">
+        <img src="../assets/images/ieee logo.png" class="nav-logo2" alt="IEEE">
+      </a>
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a class="active" href="#">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+
+  </nav>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="events-hero">
+
+    <h1 class="contact-title">
+      <span class="atom-text">Contact Us</span>
+    </h1>
+
+    <div class="contact-grid">
+
+      <!-- PoC 1 -->
+      <div class="contact-card">
+        <div class="contact-name">SINDHU PIRIYA S</div>
+        <div class="contact-roll">23D246</div>
+        <a href="https://wa.me/917904724065" class="contact-phone">
+          <img src="../assets/images/whatsapp.png" class="phone-icon" alt="">
+          +91 79047 24065
+        </a>
+      </div>
+
+      <!-- PoC 2 -->
+      <div class="contact-card">
+        <div class="contact-name">AKILESHWARAN P</div>
+        <div class="contact-roll">24L431</div>
+        <a href="https://wa.me/916381850438" class="contact-phone">
+          <img src="../assets/images/whatsapp.png" class="phone-icon" alt="">
+          +91 63818 50438
+        </a>
+      </div>
+
+      <!-- PoC 3 -->
+      <div class="contact-card">
+        <div class="contact-name">ABDUL FAIZUDEEN M</div>
+        <div class="contact-roll">23Z301</div>
+        <a href="https://wa.me/917598676710" class="contact-phone">
+          <img src="../assets/images/whatsapp.png" class="phone-icon" alt="">
+          +91 75986 76710
+        </a>
+      </div>
+
+      <!-- PoC 4 -->
+      <div class="contact-card">
+        <div class="contact-name">JANAKARTHICK N</div>
+        <div class="contact-roll">24E903</div>
+        <a href="https://wa.me/919342257538" class="contact-phone">
+          <img src="../assets/images/whatsapp.png" class="phone-icon" alt="">
+          +91 93422 57538
+        </a>
+      </div>
+
+      <!-- PoC 5 -->
+      <div class="contact-card">
+        <div class="contact-name">SANTHIYA S</div>
+        <div class="contact-roll">23I352</div>
+        <a href="https://wa.me/919159958676" class="contact-phone">
+          <img src="../assets/images/whatsapp.png" class="phone-icon" alt="">
+          +91 91599 58676
+        </a>
+      </div>
+
+      <!-- PoC 6 -->
+      <div class="contact-card">
+        <div class="contact-name">NARMITHA A.P</div>
+        <div class="contact-roll">23R223</div>
+        <a href="https://wa.me/919025396510" class="contact-phone">
+          <img src="../assets/images/whatsapp.png" class="phone-icon" alt="">
+          +91 90253 96510
+        </a>
+      </div>
+
+      <!-- INSTAGRAM -->
+      <div class="contact-card insta-card">
+        <img src="../assets/images/insta.png" class="insta-icon" alt="">
+        <a href="https://www.instagram.com/ieee_sc_12951" target="_blank" class="insta-link">
+          Follow @ieee_sc_12951
+        </a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <script src="../js/global.js"></script>
+</body>
+
+</html>

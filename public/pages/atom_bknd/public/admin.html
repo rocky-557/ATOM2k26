@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — ATOM 2K26</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+
+    <nav class="navbar">
+        <a href="/" class="logo">ATOM 2K26</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/events.html">Events</a></li>
+        </ul>
+    </nav>
+
+    <div class="admin-layout">
+        <h1>Admin Panel <span style="font-weight:300;">ATOM 2K26</span></h1>
+
+        <!-- Password Gate -->
+        <div id="authGate">
+            <div class="form-card" style="max-width:40rem;">
+                <h2 style="font-size:2rem;">Admin Access</h2>
+                <div class="form-error" id="adminError"></div>
+                <div class="form-group">
+                    <input type="password" id="adminPass" required>
+                    <label for="adminPass">Admin Password</label>
+                </div>
+                <button class="btn btn-primary" style="width:100%;height:4.4rem;font-size:1.4rem;" id="adminLoginBtn">
+                    Enter
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard (hidden until auth) -->
+        <div id="dashboard" class="hidden">
+            <!-- Stats Overview -->
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-bottom:2rem;">
+                <div class="stat-box" style="text-align:center; padding:1.6rem;">
+                    <div style="font-size:1.1rem; color:var(--muted); margin-bottom:0.4rem;">Total Signups</div>
+                    <div id="statSignups" style="font-size:2.6rem; font-weight:700; color:var(--accent);">—</div>
+                </div>
+                <div class="stat-box" style="text-align:center; padding:1.6rem;">
+                    <div style="font-size:1.1rem; color:var(--muted); margin-bottom:0.4rem;">Users Registered for Events
+                    </div>
+                    <div id="statUsersWithEvents" style="font-size:2.6rem; font-weight:700; color:var(--accent);">—
+                    </div>
+                </div>
+                <div class="stat-box" style="text-align:center; padding:1.6rem;">
+                    <div style="font-size:1.1rem; color:var(--muted); margin-bottom:0.4rem;">Total Event Registrations
+                    </div>
+                    <div id="statRegistrations" style="font-size:2.6rem; font-weight:700; color:var(--accent);">—</div>
+                </div>
+            </div>
+
+            <div class="admin-controls">
+                <div>
+                    <label style="font-size:1.2rem;color:var(--muted);">Filter by Event:</label>
+                    <select id="eventFilter">
+                        <option value="">ALL</option>
+                        <option>TECH-ODYSSEY</option>
+                        <option>NUMERIC NINJAS</option>
+                        <option>TECH-O-LYMPICS</option>
+                        <option>ELECTROQUEST</option>
+                        <option>GIZMO RUSH</option>
+                        <option>CIRCUIT-RIX</option>
+                        <option>SOLVE AND SEEK</option>
+                        <option>TRUST TREK</option>
+                        <option>HINT TO HUNT</option>
+                        <option>ROLLSTORM</option>
+                        <option>FAST & CURIOUS</option>
+                        <option>DEMOGOROGON HUNT</option>
+                        <option>CRICKET CARNIVAL</option>
+                        <option>CODE CRUSADERS</option>
+                        <option>SQUID GAME - NO WAY OUT</option>
+                        <option>INNOVISION</option>
+                        <option>FUTURIX</option>
+                        <option>AI ON THE GO: EMBEDDED ML IN ACTION</option>
+                    </select>
+                </div>
+                <div class="stat-box">
+                    Total: <span id="regCount">0</span>
+                </div>
+                <button class="btn btn-primary" id="exportBtn" style="font-size:1.2rem;">
+                    📥 Download Excel
+                </button>
+            </div>
+
+            <table class="data-table" id="regTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Mobile</th>
+                    </tr>
+                </thead>
+                <tbody id="regBody">
+                    <tr>
+                        <td colspan="6" style="text-align:center;color:var(--muted);">Select an event or view all</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        let adminPassword = '';
+
+        // Admin Login Gate
+        document.getElementById('adminLoginBtn').addEventListener('click', async () => {
+            adminPassword = document.getElementById('adminPass').value;
+
+            try {
+                const stats = await fetch('/api/admin/stats', {
+                    headers: { 'x-admin-password': adminPassword }
+                }).then(r => { if (!r.ok) throw new Error('Invalid'); return r.json(); });
+
+                // Populate stat cards
+                document.getElementById('statSignups').textContent = stats.totalUsers;
+                document.getElementById('statUsersWithEvents').textContent = stats.usersWithEvents;
+                document.getElementById('statRegistrations').textContent = stats.totalRegistrations;
+
+                document.getElementById('authGate').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                loadRegistrations();
+            } catch {
+                const card = document.querySelector('#authGate .form-card');
+                showError(card, 'Invalid admin password.');
+            }
+        });
+
+        // Load registrations
+        async function loadRegistrations() {
+            const event = document.getElementById('eventFilter').value;
+            const url = `/api/admin/registrations?event=${encodeURIComponent(event)}`;
+
+            const res = await fetch(url, { headers: { 'x-admin-password': adminPassword } });
+            const data = await res.json();
+
+            document.getElementById('regCount').textContent = data.count;
+
+            const tbody = document.getElementById('regBody');
+            tbody.innerHTML = '';
+
+            if (data.data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);">No registrations found.</td></tr>';
+                return;
+            }
+
+            // Build rows safely with textContent (prevents XSS)
+            data.data.forEach(row => {
+                const tr = document.createElement('tr');
+                ['id', 'username', 'email', 'evname', 'registration_date', 'mobile'].forEach(key => {
+                    const td = document.createElement('td');
+                    td.textContent = row[key];
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('eventFilter').addEventListener('change', loadRegistrations);
+
+        // Excel Export
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const table = document.getElementById('regTable');
+            const wb = XLSX.utils.table_to_book(table, { sheet: 'Registrations' });
+            XLSX.writeFile(wb, 'ATOM_2K26_Registrations.xlsx');
+        });
+    </script>
+</body>
+
+</html>

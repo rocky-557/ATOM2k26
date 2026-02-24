@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title id="pageTitle">Event Details | ATOM 2K26</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/event-details.css">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Overlock:wght@400;700;900&family=Cinzel+Decorative:wght@700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body class="font-scaled">
+
+  <div class="fog"></div>
+  <div class="sparkle"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+
+    <div class="nav-left">
+      <a href="https://www.psgtech.edu/" target="_blank">
+        <img src="../assets/images/psg.png" class="nav-logo" alt="PSG">
+      </a>
+      <img src="../assets/images/75yearsLogo_PSGCollegeofTech.png" class="nav-logo-large logo-white"
+        alt="75 Years PSG Tech">
+      <img src="../assets/images/100yearsLogo_PsgSonsCharities.png" class="nav-logo-large logo-white"
+        alt="100 Years PSG Sons">
+      <a href="https://www.psgtech.edu/dept/ece/ieee/" target="_blank">
+        <img src="../assets/images/ieee logo.png" class="nav-logo2" alt="IEEE">
+      </a>
+    </div>
+
+    <!-- ⭐ HAMBURGER -->
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contacts.html">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <section class="details-hero">
+
+    <a href="events.html" class="back-btn" title="Back to Events">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </a>
+
+    <h1 class="event-main-title" id="eventTitle">EVENT NAME</h1>
+
+    <div class="accordion">
+
+      <!-- DESCRIPTION -->
+      <div class="info-card">
+        <div class="card-header">
+          <h3>Description</h3>
+          <button class="toggle-btn">+</button>
+        </div>
+        <div class="card-body">
+          <p id="eventDesc"></p>
+        </div>
+      </div>
+
+      <!-- GENERAL RULES -->
+      <div class="info-card">
+        <div class="card-header">
+          <h3>General Rules</h3>
+          <button class="toggle-btn">+</button>
+        </div>
+        <div class="card-body">
+          <ol id="generalRules"></ol>
+        </div>
+      </div>
+
+      <!-- EVENT RULES -->
+      <div class="info-card">
+        <div class="card-header">
+          <h3>Event Rules</h3>
+          <button class="toggle-btn">+</button>
+        </div>
+        <div class="card-body">
+          <ol id="eventRules"></ol>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mini-grid">
+      <div class="mini-card">
+        <h4>Team Size</h4>
+        <p id="teamSize"></p>
+      </div>
+
+      <div class="mini-card">
+        <h4>Date & Time</h4>
+        <p id="eventDate"></p>
+      </div>
+
+      <div class="mini-card">
+        <h4>Contact</h4>
+        <p id="contact1"></p>
+        <p id="contact2"></p>
+      </div>
+    </div>
+
+    <button class="register-btn" onclick="showLogin()">Register Now</button>
+
+  </section>
+
+  <!-- ================= LOGIN POPUP ================= -->
+  <div class="login-popup" id="loginPopup">
+    <div class="popup-box">
+      <h3>Login Required</h3>
+      <p>Please login before registering for the event.</p>
+      <button onclick="goToLogin()">Login</button>
+    </div>
+  </div>
+
+  <!-- ================= PAGE SCRIPT ================= -->
+  <script>
+
+    /* ================= EVENT DATABASE ================= */
+
+    const SHARED_RULES = [
+      "Team size should be exactly as mentioned in the event details.",
+      "Discussion between other teams is strictly prohibited.",
+      "The decision of the convener and the volunteer will stand final in the matter of the winner list.",
+      "Use of mobile phones is strictly prohibited during the event.",
+      "Proper dress code and carrying valid ID cards are mandatory.",
+      "Late entry or malpractice will lead to immediate disqualification.",
+      "The students participating from PSG-iTECH for the paper presentation and workshops are required to produce the bonafide certificate with college seal at the time of registration."
+    ];
+
+    const EVENTS = {
+      // --- FLAGSHIP ---
+      heist: {
+        title: "HORCRUX HEIST",
+        desc: "The venue darkens as a prophecy announces the return of hidden Horcruxes. Teams must explore the area and complete magical trials to uncover secret number clues. Each successfully finished task reveals a digit needed to unlock a master code. Participants face puzzles, memory challenges, strategy games, and movement-based activities throughout the event. Careful thinking and teamwork are essential to progress. The team that decodes the sequence first and destroys all Horcruxes wins the challenge\n\n**Round 1: Room of Riddles – Cryptic Decode Hunt**\n*Decode the chaos. Find the truth. Beat the clock.*\nLetters and magical symbols are hidden around the venue. Teams must search the space to collect the correct characters and assemble a secret sentence. Fake letters and misleading symbols are also present to confuse participants. Selecting incorrect pieces forces teams to restart their decoding process.\n\n**Round 2: The Connection Charm**\n*Different clues. One hidden link. Spot it first.*\nImages based on one magical concept are displayed to all teams. Participants must carefully observe the pictures and identify the common connection between them within the shortest time. Quick thinking and sharp observation are important to score higher marks. Faster correct answers earn bonus points or extra clues, while slower responses receive fewer points.\n\n**Round 3: The Seven Horcrux Treasure Hunt**\n*Seven riddles. One master code. Only the fastest survive.*\nSeven Horcrux props are hidden at different spots around the venue, each guarded by a prophecy-style riddle. Teams must interpret the clues, locate every Horcrux, and complete small challenges to secure them. Each Horcrux provides one number that contributes to a master lock code. The first team to open the lock wins the round.",
+        general: SHARED_RULES,
+        rules: [
+          "Search for hidden characters & assemble a secret sentence.",
+          "Identify common links between magical images in the Connection Charm.",
+          "Locate 7 Horcruxes through riddles to crack the master code."
+        ],
+        team: "2-3 Members",
+        date: "March 4, 2026",
+        contact1: "P.Amirtha sree - 9566201624",
+        contact2: "Dharshini.J - 9486668282"
+      },
+      nocturna: {
+        title: "NOCTURNA: THE HUNTED REALM",
+        desc: "A high-intensity competition designed to test intelligence under pressure. This three-stage event blends strategy, speed, and psychological reasoning into one ultimate challenge. Participants must navigate strategic auctions and risk management, race through tactical grid-based puzzles, and unravel a layered murder mystery built on logic and deception.\n\n**Round 1: DEVIL’S DOMAIN**\n*Bid Smart. Control the Chaos.*\nThe competition begins inside a high-stakes supernatural marketplace where strategy determines survival. Teams enter with limited Soul Coins and must participate in fast-paced property auctions, calculated trades, and risky gambles at the Devil’s Desk. Success depends not only on wealth accumulation but also on risk control, negotiation skill, and disciplined strategic planning.\n\n**Round 2: GRID CONQUEST**\n*Think Fast. Move Faster. Win.*\nIn this fast-paced strategic arena, teams compete on a large interactive grid where every move depends on speed and accuracy. Each grid box contains a puzzle, riddle, or mini-task that must be solved to advance. Success demands quick thinking, sharp coordination, and smart time management.\n\n**Round 3: SHADOW VERDICT**\n*Unmask the Truth Within Shadows.*\nThe final round transforms participants into investigators within a layered murder mystery. Teams examine a staged crime scene, analyze timelines, and evaluate suspect testimonies to reconstruct the sequence of events. Success depends on analytical precision, cross-verification skills, and the ability to separate truth from manipulation.",
+        general: SHARED_RULES,
+        rules: [
+          "Devil's Domain: Strategic auctions with limited Soul Coins.",
+          "Grid Conquest: Simultaneous tactical puzzle solving on a large grid.",
+          "Shadow Verdict: Analyze crime scenes and detect logical contradictions."
+        ],
+        team: "2-3 Members",
+        date: "March 6 & 7, 2026",
+        contact1: "Abilash - 9150014209",
+        contact2: "Pavithra B - 9042387836"
+      },
+      bidding: {
+        title: "THE BIDDING BATTLEGROUND",
+        desc: "Welcome to an electrifying fusion of cricket, strategy, magic, and mind games. Teams won't just answer questions — they’ll step into the arena and survive the Powerplay, where every second counts. outsmart rivals in high-stakes magical duels and build your own cricketing empire in an intense IPL-style auction.\n\n**Round 1: THE POWERPLAY PREDATOR**\n*“Answer fast. Score big. Survive the Powerplay.”*\nEach team is given a set of twenty cricket-related questions to answer within twenty minutes. Teams are ranked based on their total scores at the end of the round. Top 20 teams with the highest scores qualify for the next round.\n\n**Round 2: THE CLUTCH CRUSHER**\n*“Duel hard. Think sharper. Crush the clutch.”*\nTeams compete in magical 1v1 duels. Winners pick quiz questions about IPL trivia and can choose to answer themselves or challenge opponents. First team to score 10 points wins.\n\n**Round 3: AUCTION ARMAGEDDON**\n*“Bid smart. Build legends. Rule the auction.”*\nThe final 10 teams enter an intense IPL-style auction. Each franchise gets a ₹100 crore purse to buy 15 players from a pool of 200. The winner is crowned based on the best Performance-to-Price Ratio.",
+        general: SHARED_RULES,
+        rules: [
+          "Powerplay: 20 cricket questions in 20 minutes.",
+          "Clutch Crusher: win magical 1v1 duels to earn trivia advantages.",
+          "Auction Armageddon: Intense bidding for a pool of 200 players."
+        ],
+        team: "3 Members",
+        date: "March 5 & 7, 2026",
+        contact1: "Lokeshwar - 8940820441",
+        contact2: "Karan Sabarish - 6374428078"
+      },
+
+      // --- TECHNICAL ---
+      techspark: {
+        title: "TECH SPARK",
+        desc: "TECH SPARK is an exciting technical escape challenge that puts your electronics knowledge, problem-solving skills, and teamwork to the test. Open to first- and second-year students, it is the perfect stage to spark innovation.\n\n**Round 1: Escape The Room**\n*Crack the Concepts. Unlock the Next.*\nEvaluate core knowledge of electronic components and circuit fundamentals through interactive mini challenges. Participants must analyze clues and apply basic electronics understanding to progress.\n\n**Round 2: Component Hunt**\n*“Spot It. Fix It. Win It.”*\nIdentify and complete incomplete circuits, enhancing problem-solving, observation, and troubleshooting abilities. Improve practical skills in digital circuit construction and communication.",
+        general: SHARED_RULES,
+        rules: [
+          "Escape the Room: Solve electronics fundamentals challenges.",
+          "Component Hunt: Fix digital circuits and troubleshooting."
+        ],
+        team: "2 Members",
+        date: "March 4, 2026",
+        contact1: "Ramakarthikeyan - 9342935603",
+        contact2: "Bavithra E - 7871556913"
+      },
+      electroquest: {
+        title: "ELECTROQUEST",
+        desc: "Electro Quest is an engaging technical event where participants progress through multiple rounds involving component recall, circuit analysis, circuit reconstruction, and concept explanation.\n\n**Round 1: Memory Recall & Technical Awareness**\n*\"See. Remember. Identify.\"*\nAcross 5 slides displaying various circuit elements, participants must carefully recall and identify components to answer related questions. This round sharpens both memory and technical awareness under time pressure.\n\n**Round 2: Circuit Analysis & Circuit Building**\n*\"Bring Logics to Life\"*\nAnalyze given logic gate circuits to determine outputs and then rebuild them using alternative components. Evaluation focuses on logical accuracy, proper connections, and verified outputs.\n\n**Round 3: JAM (Just A Minute – Technical Edition)**\n*\"Guessing the tech\"*\nOne team member picks a chit and explains the given circuit, component, or principle to their teammates without mentioning the exact term.",
+        general: SHARED_RULES,
+        rules: [
+          "Memory Recall: Identify components across 30 rapid slides.",
+          "Circuit Analysis: Determine outputs and rebuild logic circuits.",
+          "Just A Minute: Explain technical components without naming them."
+        ],
+        team: "2 Members",
+        date: "March 6, 2026",
+        contact1: "Munu Brinda M - 9384242709",
+        contact2: "Kumareshan V - 9385836250"
+      },
+      circuitsafari: {
+        title: "CIRCUIT SAFARI",
+        desc: "Circuit Safari is an engaging technical challenge where logic meets exploration. Participants race through clue-based problem solving and circuit simulation tasks across two exciting rounds.\n\n**Round 1: Gridlock Hunt**\n*\"Solve. Search. Unlock.\"*\nThis round combines technical crossword solving and clue-based exploration. Teams must decode answers and collect hidden colour-coded clues to identify a final technical circuit word.\n\n**Round 2: Spice Zone**\n*\"Simulate to Survive\"*\nShortlisted teams must design and simulate the circuit corresponding to the final word identified in Round One using LTspice.",
+        general: SHARED_RULES,
+        rules: [
+          "Gridlock Hunt: Collect color-coded clues to decode a secret word.",
+          "Spice Zone: Design and simulate accurately using LTspice."
+        ],
+        team: "2-3 Members",
+        date: "March 6, 2026",
+        contact1: "Maha Matheswaran - 94875 52525",
+        contact2: "Ajinsha J – 89253 60691"
+      },
+      techreflex: {
+        title: "TECH REFLEX ARENA",
+        desc: "A fast-paced, student-friendly technical game event that tests observation, memory, creativity, and practical thinking using simple technology concepts. Designed for participants from any department.\n\n**Round 1: Digital Memory Trap**\n*Mind Over Microchip.*\nParticipants are shown a set of IEEE/tech-themed cards automatically hidden. Players must answer memory-based technical questions about logic gates, binary numbers, and circuit icons.\n\n**Round 2: Spin & Solve Challenge**\n*Spin the Solution.*\nSpin two wheels: one for tech components (sensors, drones) and one for real-world scenarios (smart cities, floods). Force yourself to deliver a simple, inventive application assigned technology.",
+        general: SHARED_RULES,
+        rules: [
+          "Digital Memory Trap: Remember icons and solve tech symbol puzzles.",
+          "Spin & Solve: Bridge hardware and humanity with scenario-based solutions."
+        ],
+        team: "2 Members",
+        date: "March 4, 2026",
+        contact1: "Thellothama - 9342500285",
+        contact2: "Vinushree - 9894641438"
+      },
+      quizcraft: {
+        title: "QUIZCRAFT",
+        desc: "A high-energy technical challenge to evaluate participants' core technical knowledge, aptitude, and responsiveness under pressure.\n\n**Round 1: Tech Buzz Arena**\n*Buzzering With Brilliance.*\nEvaluate core knowledge through rapid-fire questions and interactive mini-games. This round emphasizes conceptual clarity and speed of response.\n\n**Round 2: Smart Home Sprint**\n*\"Build smart,Think Smart\"*\nAssess creativity and technical understanding of smart technologies through a hands-on design and technical reasoning challenge.",
+        general: SHARED_RULES,
+        rules: [
+          "Tech Buzz Arena: Rapid-fire questions with buzzering action.",
+          "Smart Home Sprint: Design and reason through smart home automation."
+        ],
+        team: "2 Members",
+        date: "March 5, 2026",
+        contact1: "SANTHOSH KUMAR M-7358239594",
+        contact2: "NIVEDHINI M -9342236049"
+      },
+
+      // --- NON-TECHNICAL ---
+      rhythm: {
+        title: "RHYTHM OF HOGWARTS",
+        desc: "Rhythm of Hogwarts is a music-based non-technical event where teams decode songs through visual clues and audio challenges. testing listening skills, quick thinking, coordination, and teamwork.\n\n**Round 1: Melody Matrix**\n*See the clues. Hear the rhythm.*\nTeams must identify the correct song name within the time limit from picture sets displayed on screen. No mobile phones are allowed.\n\n**Round 2: Reparo Rhythms**\n*Speed up. Decode fast.*\nOne player wears a headset playing a song at 2x speed, identifies it, and communicates it to their teammate. The teammate then identifies clue images to locate a movie poster.",
+        general: SHARED_RULES,
+        rules: [
+          "Melody Matrix: Identify song names from picture sets.",
+          "Reparo Rhythms: Decode 2x speed music and find hidden posters."
+        ],
+        team: "2 Members",
+        date: "March 6, 2026",
+        contact1: "ASHWIN C - 6383399879",
+        contact2: "SWETHA GV - 7539998221"
+      },
+      parallel: {
+        title: "PARALLEL PURSUIT",
+        desc: "Parallel Paradox is an immersive reality-bending challenge that tests your perception, adaptability, and teamwork. Step into a world where nothing stays the same and prove you can master every dimension.\n\n**Round 1: FOOTPRINTS OF REALITY**\n*Balance the Step. Conquer the Shift.*\nFollow a footprint path on the floor with precision, but midway through, a randomly selected card unexpectedly alters the rules, forcing instant strategy adjustments.\n\n**Round 2: Burst the Mystery**\n*Decode the Truth. Defy the Illusion*\nExamine clues where only some belong to the true reality. Success demands logic, trust, accuracy, and calm under pressure.\n\n**Round 3: The Butterfly Effect**\n*One Change. Endless Consequences*\nReconstruct an original sequence of symbols or colors within the Parallel Room, where the arrangement has been subtly altered.",
+        general: SHARED_RULES,
+        rules: [
+          "Footprints of Reality: Adapt as dice rolls change your path midterm.",
+          "Burst the Mystery: Identify 'true reality' clues while blindfolded.",
+          "Butterfly Effect: Reconstruct altered sequences in the Parallel Room."
+        ],
+        team: "2 Members",
+        date: "March 5, 2026",
+        contact1: "Rajasri M - 9025949676",
+        contact2: "Anuvarshini T - 6380698980"
+      },
+      fate: {
+        title: "FATE IN THE DARK",
+        desc: "Fate in the Dark is a single-round individual challenge testing presence of mind, courage, and quick decision-making. Unlock all three locks and exit the maze within 12 minutes.\n\n**Round 1: Cipher Chase**\n*Every lock hides a secret. Every step counts*\nEach participant receives a maze map and must strictly follow the route. Three locks each contain a 6-digit code. Remaining digits are obtained by guessing or luck-based tasks.",
+        general: SHARED_RULES,
+        rules: [
+          "Cipher Chase: Use a torch and map to unlock 6-digit codes.",
+          "Unlock three locks and collect cards to secure your score."
+        ],
+        team: "Individual",
+        date: "March 4, 2026",
+        contact1: "SUDAR A S - 9884286004",
+        contact2: "HARI PRASATH S – 7904103510"
+      },
+      moviemania: {
+        title: "MOVIE MANIA",
+        desc: "Movie Mania is a dynamic multi-round event testing movie knowledge, listening skills, and quick thinking. Progressive scoring systems reward speed, accuracy, teamwork, and focus.\n\n**Round 1: CINE CLUE CHALLENGE**\n*No scenes. Just suspense.*\nAnalyze 4–5 progressive written clues describing character roles and themes. Guess the correct title within 10–15 seconds per hint.\n\n**Round 2: BEAT THE LYRICS**\n*One verse. One guess.*\nHost recites lyrics from the middle of a track. Teams must identify the song and its movie within 10–15 seconds.\n\n**Round 3: DIALOGUE CONFUSION (BONUS)**\n*One quote. One shot at glory.*\nIdentify movies from iconic dialogues. Conducted only if time permits as an optional bonus round.\n\n**Round 4: RAPID FIRE (BONUS)**\n*Rapid clues. Rapid glory.*\nAnswer as many movie-related clues as possible in 60 seconds. Moderator delivers quick hints about plots and characters.",
+        general: SHARED_RULES,
+        rules: [
+          "Cine Clue: Guess movies from character and theme hints.",
+          "Beat the Lyrics: Host recites lyrics; you name the track/film.",
+          "Rapid Fire: 60 seconds of back-to-back movie plot clues."
+        ],
+        team: "2-4 Members",
+        date: "March 5, 2026",
+        contact1: "PRITHIV VENKATESWARAN - 8925363388",
+        contact2: "KIRUPALIKAA NM - 7418655976"
+      },
+      magicrush: {
+        title: "MAGIC RUSH",
+        desc: "Magic Rush is a themed quiz and game event blending knowledge and speed. Round 1 features a house-based quiz format. Round 2 challenges qualifying participants in fast-paced mini-games.\n\n**Round 1: House Quiz Round**\n*Spin the Wheel. Answer the Call. Rule the Round!*\nForty questions based on Tamil movies and fun topics. Each house answers 10 questions selected via the Wheel of Wizarding Fate.\n\n**Round 2: SPEED RUN MINI-GAMES**\n*Six Games. One Team. Lightning-Fast Fun!*\nComplete 5–6 exciting mini-games (Paper Tower, Memory Cards, Bottle Flip, etc.) efficiently as performance determines winners.",
+        general: SHARED_RULES,
+        rules: [
+          "House Quiz: Spin the Wheel of Wizarding Fate for movie trivia.",
+          "Speed Run: Power through 6 mini-games (Paper Tower, card games, etc.)."
+        ],
+        team: "2 Members",
+        date: "March 4, 2026",
+        contact1: "Mukesh.K - 6383124104",
+        contact2: "G ABISHEK - 9080253991"
+      },
+
+      // --- PAPER & WORKSHOP ---
+      innovatex: {
+        title: "INNOVATEX",
+        desc: "This event focuses on innovative software solutions powered by intelligent and data-driven technologies. promote practical problem-solving through intelligent system design and analytics.\n\n**Round 1: Abstract Review and Shortlist**\n*‘Present Your Perspective. Prove Your Potential’*\nSubmit original research papers by March 4th. Shortlisted authors are invited to present based on originality and academic value.\n\n**Round 2: Paper Presentation and Q&A**\n*‘Pitch with Precision. Win with Innovation’*\nEach shortlisted participant has 15 minutes for their presentation and Q&A session with the judges.",
+        general: SHARED_RULES,
+        rules: [
+          "Abstract Review: Submit by March 4th to innovatexatom2k26@gmail.com.",
+          "Pitch Day: 10 mins presentation + 5 mins Q&A session."
+        ],
+        team: "2-3 Members",
+        date: "March 4, 2026",
+        contact1: "innovatexatom2k26@gmail.com",
+        contact2: ""
+      },
+      intellicare: {
+        title: "INTELLICARE",
+        desc: "Intellicare is a hardware-focused technical paper presentation event on intelligent and sustainable electronic system design emphasizing practical implementation and user-centric design.\n\n**Round 1: Abstract Review and Shortlist**\n*Innovate. Document. Qualify.*\nSubmit original technical paper abstracts via email. domain experts evaluate based on technical depth and contribution.\n\n**Round 2: Paper Presentation and Q&A**\n*Present. Defend. Excel.*\nShortlisted teams present complete technical papers for 15–20 minutes, followed by an interactive Q&A session justifying design decisions.",
+        general: SHARED_RULES,
+        rules: [
+          "Abstract review via pp2.psgtech@gmail.com.",
+          "Live presentation: Defend your design decisions before experts."
+        ],
+        team: "2-3 Members",
+        date: "March 4, 2026",
+        contact1: "pp2.psgtech@gmail.com",
+        contact2: ""
+      },
+      evworkshop: {
+        title: "ELECTRIC VEHICLES & CHARGING INFRASTRUCTURE",
+        desc: "Get a practical introduction to Electric Vehicles (EVs) and charging technologies with a mix of theory and simulation to understand real-world systems.\n\n**Morning Session: Fundamentals**\nExplore EV architecture (Motor, Battery, Controller), Li-ion battery tech, and AC vs DC charging standards.\n\n**Afternoon Session: Simulation**\nHands-on designing and modeling an EV charging system using MATLAB / Proteus. Design and simulate a basic EV charging model.",
+        general: SHARED_RULES,
+        rules: [
+          "Morning: Fundamental EV architecture and BMS.",
+          "Afternoon: MATLAB/Proteus simulation and mini project activity."
+        ],
+        team: "Individual / Team 2",
+        date: "March 7, 2026",
+        contact1: "Dhesiya Muhilan - 9092570090",
+        contact2: "Pranav Varshan M"
+      }
+    };
+
+    /* ================= LOAD EVENT ================= */
+
+    const params = new URLSearchParams(window.location.search);
+    const eventKey = params.get("event") || "heist";
+    const data = EVENTS[eventKey];
+
+    if (!data) {
+      alert("Event not found. Redirecting to events list...");
+      window.location.href = "events.html";
+    } else {
+      document.getElementById("eventTitle").textContent = data.title;
+      document.getElementById("pageTitle").textContent = data.title + " | ATOM 2K26";
+
+      // Preserve line breaks and bolding/italics in description
+      document.getElementById("eventDesc").innerHTML = data.desc
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+      document.getElementById("teamSize").textContent = data.team;
+      document.getElementById("eventDate").textContent = data.date;
+      document.getElementById("contact1").textContent = data.contact1;
+      document.getElementById("contact2").textContent = data.contact2;
+
+      fillList("generalRules", data.general);
+      fillList("eventRules", data.rules);
+
+      /* ================= ACCORDION ================= */
+      const cards = document.querySelectorAll(".info-card");
+      cards.forEach(card => {
+        const btn = card.querySelector(".toggle-btn");
+        btn.addEventListener("click", () => {
+          const isOpen = card.classList.contains("open");
+          cards.forEach(c => {
+            c.classList.remove("open");
+            c.querySelector(".toggle-btn").textContent = "+";
+          });
+          if (!isOpen) {
+            card.classList.add("open");
+            btn.textContent = "×";
+          }
+        });
+      });
+    }
+
+    /* fill lists */
+    function fillList(id, arr) {
+      const el = document.getElementById(id);
+      el.innerHTML = "";
+      arr.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        el.appendChild(li);
+      });
+    }
+
+    /* ================= POPUP ================= */
+    function showLogin() {
+      document.getElementById("loginPopup").style.display = "flex";
+    }
+
+    function goToLogin() {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <!-- ✅ GLOBAL SCRIPT (VERY IMPORTANT — KEEP LAST) -->
+  <script src="../js/global.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ATOM2K26 | Unleash the Magic Within</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cinzel+Decorative:wght@700;900&family=Macondo+Swash+Caps&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+
+<body>
+
+    <!-- 🎬 VIDEO BACKGROUND -->
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="assets/images/entryy.mp4" type="video/mp4">
+    </video>
+
+    <!-- 🌫️ fog -->
+    <div class="fog"></div>
+
+    <!-- ✨ sparkle -->
+    <div class="sparkle"></div>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+
+        <h1 class="title">
+            <span class="atom">ATOM 2K26</span>
+        </h1>
+
+        <a href="pages/home.html" class="dive-btn" onclick="enterSite(event)">
+            Enter
+        </a>
+
+    </section>
+
+
+    <script>
+        function enterSite(e) {
+            e.preventDefault();
+            window.location.replace("pages/home.html");
+        }
+    </script>
+
+    <!-- ✅ GLOBAL SCRIPT -->
+    <script src="js/global.js"></script>
+
+</body>
+
+</html>

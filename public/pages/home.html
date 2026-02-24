@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Atom 2K26</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="home-page">
+  <div class="fog"></div>
+  <div class="sparkle"></div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="https://www.psgtech.edu/" target="_blank">
+        <img src="../assets/images/psg.png" class="nav-logo" alt="PSG">
+      </a>
+      <img src="../assets/images/75yearsLogo_PSGCollegeofTech.png" class="nav-logo-large logo-white"
+        alt="75 Years PSG Tech">
+      <img src="../assets/images/100yearsLogo_PsgSonsCharities.png" class="nav-logo-large logo-white"
+        alt="100 Years PSG Sons">
+      <a href="https://www.psgtech.edu/dept/ece/ieee/" target="_blank">
+        <img src="../assets/images/ieee logo.png" class="nav-logo2" alt="IEEE">
+      </a>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <ul class="nav-menu" id="navMenu">
+      <li><a class="active" href="#">Home</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contacts.html">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="book-box">
+      <h1 class="title">
+        <span class="atom-text">ATOM 2K26</span>
+      </h1>
+      <h2 class="date">March 4 • 5 • 6 • 7 - 2026 </h2>
+
+      <div class="countdown">
+        <div class="time-box"><span id="days">00</span>
+          <p>Days</p>
+        </div>
+        <div class="time-box"><span id="hours">00</span>
+          <p>Hours</p>
+        </div>
+        <div class="time-box"><span id="minutes">00</span>
+          <p>Minutes</p>
+        </div>
+        <div class="time-box"><span id="seconds">00</span>
+          <p>Seconds</p>
+        </div>
+      </div>
+
+      <a href="events.html" class="gold-btn">Explore Events</a>
+    </div>
+  </section>
+
+  <!-- ================= TECHNICAL EVENTS CAROUSEL ================= -->
+  <section class="featured-events">
+    <h2 class="category-title">FEATURED EVENTS</h2>
+
+    <div class="horizontal-scroller">
+      <div class="events-track">
+        <!-- Initial set -->
+        <div class="event-card">
+          <img src="../assets/images/Downloads/Harry Potter – The Horcrux Heist.png" alt="Horcrux Heist">
+          <div class="card-content">
+            <h3>Horcrux Heist</h3>
+            <p>Harry Potter themed cryptic hunt.</p>
+            <a href="event-details.html?event=heist" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/Nocturna  The hunted realm.png" alt="Nocturna">
+          <div class="card-content">
+            <h3>Nocturna</h3>
+            <p>Strategy, puzzles & mystery.</p>
+            <a href="event-details.html?event=nocturna" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/THE BIDDING BATTLEGROUND.png" alt="Bidding Battleground">
+          <div class="card-content">
+            <h3>Bidding Battleground</h3>
+            <p>Cricket quiz & IPL auction.</p>
+            <a href="event-details.html?event=bidding" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/TECH SPARK.png" alt="Tech Spark">
+          <div class="card-content">
+            <h3>Tech Spark</h3>
+            <p>Electronics escape challenge.</p>
+            <a href="event-details.html?event=techspark" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/ELECTROQUEST.png" alt="ElectroQuest">
+          <div class="card-content">
+            <h3>ElectroQuest</h3>
+            <p>Logic sparks & circuit puzzles.</p>
+            <a href="event-details.html?event=electroquest" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/CIRCUIT SAFARI.png" alt="Circuit Safari">
+          <div class="card-content">
+            <h3>Circuit Safari</h3>
+            <p>Clue-based circuit simulation.</p>
+            <a href="event-details.html?event=circuitsafari" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <!-- Duplicate set for seamless loop -->
+        <div class="event-card">
+          <img src="../assets/images/Downloads/Harry Potter – The Horcrux Heist.png" alt="Horcrux Heist">
+          <div class="card-content">
+            <h3>Horcrux Heist</h3>
+            <p>Harry Potter themed cryptic hunt.</p>
+            <a href="event-details.html?event=heist" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/Nocturna  The hunted realm.png" alt="Nocturna">
+          <div class="card-content">
+            <h3>Nocturna</h3>
+            <p>Strategy, puzzles & mystery.</p>
+            <a href="event-details.html?event=nocturna" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/THE BIDDING BATTLEGROUND.png" alt="Bidding Battleground">
+          <div class="card-content">
+            <h3>Bidding Battleground</h3>
+            <p>Cricket quiz & IPL auction.</p>
+            <a href="event-details.html?event=bidding" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/TECH SPARK.png" alt="Tech Spark">
+          <div class="card-content">
+            <h3>Tech Spark</h3>
+            <p>Electronics escape challenge.</p>
+            <a href="event-details.html?event=techspark" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/ELECTROQUEST.png" alt="ElectroQuest">
+          <div class="card-content">
+            <h3>ElectroQuest</h3>
+            <p>Logic sparks & circuit puzzles.</p>
+            <a href="event-details.html?event=electroquest" class="view-btn">View More</a>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <img src="../assets/images/Downloads/CIRCUIT SAFARI.png" alt="Circuit Safari">
+          <div class="card-content">
+            <h3>Circuit Safari</h3>
+            <p>Clue-based circuit simulation.</p>
+            <a href="event-details.html?event=circuitsafari" class="view-btn">View More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COUNTDOWN SCRIPT ================= -->
+  <script>
+    const eventDate = new Date("March 4, 2026 00:00:00").getTime();
+    setInterval(() => {
+      const now = new Date().getTime();
+      const gap = eventDate - now;
+      document.getElementById("days").innerText = Math.max(0, Math.floor(gap / (1000 * 60 * 60 * 24)));
+      document.getElementById("hours").innerText = Math.max(0, Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+      document.getElementById("minutes").innerText = Math.max(0, Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60)));
+      document.getElementById("seconds").innerText = Math.max(0, Math.floor((gap % (1000 * 60)) / 1000));
+    }, 1000);
+  </script>
+
+  <script src="../js/global.js"></script>
+</body>
+
+</html>

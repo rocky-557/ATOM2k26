@@ -1,0 +1,257 @@
+/* ================= RESET ================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================= BODY ================= */
+body {
+  font-family: 'Overlock', cursive;
+  color: white;
+  overflow-x: hidden;
+  background:
+    linear-gradient(rgba(10, 10, 30, 0.78), rgba(10, 10, 30, 0.92)),
+    url("../assets/images/bg_home.jpg") center/cover no-repeat;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 50px;
+  background: rgba(10, 10, 30, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, #5a4300, #d4af37, #fff3a0, #d4af37, #5a4300) 1;
+}
+
+/* ================= HERO ================= */
+.events-hero {
+  min-height: 100vh;
+  padding: 140px 20px 80px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ================= TITLES ================= */
+.events-title {
+  font-family: 'Cinzel Decorative', serif;
+  background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+
+  font-size: 56px;
+  margin: 0 auto 40px auto;
+  text-align: center;
+  width: fit-content;
+}
+
+.category-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 34px;
+  margin: 70px 0 30px;
+  letter-spacing: 2px;
+  text-align: center;
+  background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   ⭐ SMART GRID SYSTEM (OLD POWER)
+   ========================================================= */
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto 50px;
+}
+
+/* center cards */
+.events-grid .event-card {
+  justify-self: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* ================= CENTER LAST ROW ================= */
+
+.events-grid.center-last {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.events-grid.center-last .event-card {
+  grid-column: span 2;
+}
+
+/* ================= TWO CENTER ================= */
+
+.events-grid.two-center {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.events-grid.two-center .event-card {
+  grid-column: span 3;
+}
+
+/* ================= ONE CENTER ================= */
+
+.events-grid.one-center {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+/* =========================================================
+   ✨ FLOATING CARD MAGIC (FROM OLD — PREMIUM)
+   ========================================================= */
+
+.event-card {
+  background: rgba(15, 15, 35, 0.85);
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(120, 80, 255, 0.25);
+
+  animation: floatCard 6s ease-in-out infinite;
+
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease;
+}
+
+/* stagger floating */
+.event-card:nth-child(2) {
+  animation-delay: .8s;
+}
+
+.event-card:nth-child(3) {
+  animation-delay: 1.6s;
+}
+
+.event-card:nth-child(4) {
+  animation-delay: .4s;
+}
+
+.event-card:nth-child(5) {
+  animation-delay: 1.2s;
+}
+
+@keyframes floatCard {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.event-card:hover {
+  transform: translateY(-14px) scale(1.04);
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.9),
+    0 0 45px rgba(212, 175, 55, 0.45);
+}
+
+/* ================= IMAGE ================= */
+.event-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* ================= CARD CONTENT ================= */
+.card-content {
+  padding: 22px;
+  text-align: center;
+}
+
+.card-content h3 {
+  margin-bottom: 12px;
+  color: #ffe27a;
+  font-size: 26px;
+  /* Scaled higher */
+}
+
+.card-content p {
+  font-size: 21px;
+  /* Scaled closer to 1.75x */
+  opacity: .95;
+  margin-bottom: 22px;
+  text-align: justify;
+}
+
+/* ================= BUTTON ================= */
+.view-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  font-weight: 600;
+  color: #ffe27a;
+  text-decoration: none;
+  font-size: 18px;
+  /* Scaled up */
+  background: linear-gradient(145deg, #2a0000, #7a0000, #b30000, #7a0000, #2a0000);
+  border-image: linear-gradient(135deg, #4a3500, #d4af37, #fff3a0, #d4af37, #4a3500) 1;
+}
+
+/* =========================================================
+   📱 MOBILE
+   ========================================================= */
+
+@media (max-width:900px) {
+
+  .events-grid,
+  .events-grid.center-last,
+  .events-grid.two-center {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width:600px) {
+
+  .events-grid,
+  .events-grid.center-last,
+  .events-grid.two-center,
+  .events-grid.one-center {
+    grid-template-columns: 1fr;
+  }
+
+  .event-card {
+    animation: floatCardMobile 5s ease-in-out infinite;
+  }
+
+  @keyframes floatCardMobile {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+}

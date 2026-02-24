@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATOM 2K26 | Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- SheetJS for Excel export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0d0d14;
+      --surface: #14141f;
+      --card: #1a1a2a;
+      --border: rgba(212, 175, 55, 0.18);
+      --gold: #e6e6e6;
+      --gold-lt: #dcdcdc;
+      --red: #252525;
+      --txt: #cdd0e3;
+      --muted: #6b7096;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      min-height: 100vh;
+    }
+
+    /* ── Login Screen ── */
+    #loginScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .login-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 44px;
+      width: 380px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-box h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .login-box p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    input[type="password"],
+    select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="password"]:focus,
+    select:focus {
+      border-color: var(--gold);
+    }
+
+    select option {
+      background: #1a1a2a;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #41007a, #41009b);
+      border: 1.5px solid var(--gold);
+      border-radius: 10px;
+      color: var(--gold-lt);
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
+    .error-msg {
+      color: #ff6b6b;
+      font-size: 0.82rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ── Dashboard ── */
+    #dashboard {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .topbar-brand span {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 0.8rem;
+      margin-left: 10px;
+    }
+
+    .btn-sm {
+      padding: 7px 16px;
+      border-radius: 7px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Inter', sans-serif;
+      transition: 0.2s;
+    }
+
+    .btn-sm:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .content {
+      padding: 28px 32px;
+    }
+
+    /* ── Stats Cards ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
+      transition: border-color 0.25s;
+    }
+
+    .stat-card:hover {
+      border-color: rgba(212, 175, 55, 0.45);
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--gold-lt);
+      line-height: 1;
+    }
+
+    /* ── Registrations Panel ── */
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .panel-header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gold-lt);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .controls select {
+      width: 220px;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+    }
+
+    .btn-export {
+      padding: 8px 18px;
+      background: linear-gradient(135deg, #1a3a1a, #0a2a0a);
+      border: 1px solid #3a7a3a;
+      border-radius: 7px;
+      color: #a0e0a0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-export:hover {
+      filter: brightness(1.2);
+    }
+
+    .count-badge {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      color: var(--gold);
+    }
+
+    /* ── Table ── */
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.855rem;
+    }
+
+    thead tr {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--txt);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: rgba(212, 175, 55, 0.04);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 48px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .event-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(122, 0, 0, 0.4), rgba(179, 0, 0, 0.3));
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      color: var(--gold-lt);
+      margin: 1px;
+    }
+
+    @media (max-width: 700px) {
+      .stats-row {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar,
+      .content {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════ LOGIN SCREEN ══════════ -->
+  <div id="loginScreen">
+    <div class="login-box">
+      <h1>⚡ ATOM 2K26</h1>
+      <p>Admin Dashboard — restricted access</p>
+      <div class="field-group">
+        <label>Admin Password</label>
+        <input type="password" id="adminPwd" placeholder="Enter admin password" autofocus
+          onkeydown="if(event.key==='Enter') doLogin()">
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Access Dashboard</button>
+      <div class="error-msg" id="loginErr">Incorrect password. Access denied.</div>
+    </div>
+  </div>
+
+  <!-- ══════════ DASHBOARD ══════════ -->
+  <div id="dashboard">
+
+    <div class="topbar">
+      <div class="topbar-brand">ATOM 2K26 <span>Admin Dashboard</span></div>
+      <button class="btn-sm" onclick="doLogout()">← Logout</button>
+    </div>
+
+    <div class="content">
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Users</div>
+          <div class="stat-value" id="statUsers">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Registrations</div>
+          <div class="stat-value" id="statRegs">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Unique Participants</div>
+          <div class="stat-value" id="statUniq">—</div>
+        </div>
+      </div>
+
+      <!-- Registrations Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <h2>Registrations</h2>
+            <span class="count-badge" id="regCount">0</span>
+          </div>
+          <div class="controls">
+            <select id="eventSelect" onchange="loadRegistrations()">
+              <option value="">All Events</option>
+              <!-- Technical -->
+              <optgroup label="── Technical ──">
+                <option value="techreflex">Tech Reflex</option>
+                <option value="magicrush">Magic Rush</option>
+                <option value="circuitrix">Circuit Rix</option>
+                <option value="espionage">Espionage</option>
+                <option value="aisorcery">AI Sorcery</option>
+                <option value="fotography">Fotography</option>
+              </optgroup>
+              <!-- Non-Technical -->
+              <optgroup label="── Non-Technical ──">
+                <option value="fate">Fate</option>
+                <option value="treasure">Treasure Hunt</option>
+                <option value="fandom">Fandom Quiz</option>
+                <option value="blindwire">Blind Wire</option>
+                <option value="elitequiz">Elite Quiz</option>
+                <option value="connexia">Connexia</option>
+              </optgroup>
+              <!-- Flagship -->
+              <optgroup label="── Flagship ──">
+                <option value="heist">Horcrux Heist</option>
+                <option value="nocturna">Nocturna</option>
+                <option value="bidding">Bidding War</option>
+              </optgroup>
+            </select>
+            <button class="btn-export" onclick="exportExcel()">⬇ Export Excel</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="regTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Event(s)</th>
+                <th>Registered On</th>
+              </tr>
+            </thead>
+            <tbody id="regBody">
+              <tr>
+                <td colspan="6" class="no-data">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Unregistered Users Panel -->
+      <div class="panel" style="margin-top:20px">
+        <div class="panel-header">
+          <div style="display:flex;align-items:center;gap:12px">
+            <h2>Signed Up — No Events Yet</h2>
+            <span class="count-badge" id="unregCount">0</span>
+          </div>
+          <button class="btn-export" onclick="exportUnreg()">⬇ Export Excel</button>
+        </div>
+        <div class="table-wrap">
+          <table id="unregTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Mobile</th>
+              </tr>
+            </thead>
+            <tbody id="unregBody">
+              <tr>
+                <td colspan="3" class="no-data">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let _adminPwd = '';
+
+    /* ── Login ── */
+    async function doLogin() {
+      const pwd = document.getElementById('adminPwd').value;
+      if (!pwd) return;
+
+      const err = document.getElementById('loginErr');
+      err.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/admin/stats', {
+          headers: { 'x-admin-password': pwd }
+        });
+        if (!res.ok) {
+          err.style.display = 'block';
+          return;
+        }
+        const data = await res.json();
+
+        _adminPwd = pwd;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+
+        // populate stats
+        document.getElementById('statUsers').textContent = data.totalUsers ?? '—';
+        document.getElementById('statRegs').textContent = data.totalRegistrations ?? '—';
+        document.getElementById('statUniq').textContent = data.usersWithEvents ?? '—';
+
+        loadRegistrations();
+        loadUnregistered();
+      } catch {
+        err.style.display = 'block';
+      }
+    }
+
+    function doLogout() {
+      _adminPwd = '';
+      document.getElementById('adminPwd').value = '';
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+    }
+
+    /* ── Load Registrations ── */
+    async function loadRegistrations() {
+      const event = document.getElementById('eventSelect').value;
+      const url = '/api/admin/registrations' + (event ? `?event=${event}` : '');
+      const tbody = document.getElementById('regBody');
+      tbody.innerHTML = `<tr><td colspan="6" class="no-data">Loading...</td></tr>`;
+
+      try {
+        const res = await fetch(url, { headers: { 'x-admin-password': _adminPwd } });
+        const json = await res.json();
+        const rows = json.data || [];
+
+        document.getElementById('regCount').textContent = rows.length;
+
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="6" class="no-data">No registrations found.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = rows.map((r, i) => `
+        <tr>
+          <td style="color:var(--muted)">${i + 1}</td>
+          <td style="font-weight:500;color:#fff">${esc(r.username)}</td>
+          <td>${esc(r.email)}</td>
+          <td>${esc(r.mobile || '—')}</td>
+          <td>${formatEvents(r.evname)}</td>
+          <td style="color:var(--muted)">${formatDate(r.registration_date)}</td>
+        </tr>
+      `).join('');
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="6" class="no-data">Error loading data.</td></tr>`;
+      }
+    }
+
+    /* ── Export Excel ── */
+    function exportExcel() {
+      const table = document.getElementById('regTable');
+      const wb = XLSX.utils.table_to_book(table, { sheet: 'Registrations' });
+      const event = document.getElementById('eventSelect').value || 'All';
+      XLSX.writeFile(wb, `ATOM2K26_Registrations_${event}_${today()}.xlsx`);
+    }
+
+    /* ── Export Unregistered ── */
+    function exportUnreg() {
+      const table = document.getElementById('unregTable');
+      const wb = XLSX.utils.table_to_book(table, { sheet: 'No Events' });
+      XLSX.writeFile(wb, `ATOM2K26_NoEvents_${today()}.xlsx`);
+    }
+
+    /* ── Load Unregistered Users ── */
+    async function loadUnregistered() {
+      const tbody = document.getElementById('unregBody');
+      tbody.innerHTML = `<tr><td colspan="3" class="no-data">Loading...</td></tr>`;
+      try {
+        const res = await fetch('/api/admin/unregistered', { headers: { 'x-admin-password': _adminPwd } });
+        const json = await res.json();
+        const rows = json.data || [];
+        document.getElementById('unregCount').textContent = rows.length;
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="3" class="no-data">All signed-up users have registered for events.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = rows.map((r, i) => `
+          <tr>
+            <td style="color:var(--muted)">${i + 1}</td>
+            <td>${esc(r.email)}</td>
+            <td style="font-weight:500;color:#fff">${esc(r.username || '—')}</td>
+            <td>${esc(r.mobile || '—')}</td>
+          </tr>
+        `).join('');
+      } catch {
+        tbody.innerHTML = `<tr><td colspan="3" class="no-data">Error loading data.</td></tr>`;
+      }
+    }
+
+    /* ── Helpers ── */
+    function esc(s) {
+      return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function formatEvents(evname) {
+      if (!evname) return '—';
+      return evname.split(',').map(e => `<span class="event-tag">${esc(e.trim())}</span>`).join(' ');
+    }
+
+    function formatDate(d) {
+      if (!d) return '—';
+      try { return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); }
+      catch { return d; }
+    }
+
+    function today() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+  </script>
+
+</body>
+
+</html>

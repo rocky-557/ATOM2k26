@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATOM 2K26 | Your Profile</title>
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Overlock:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background:
+                linear-gradient(rgba(6, 6, 22, 0.92), rgba(6, 6, 22, 0.97)),
+                url("../assets/images/bg_home.jpg") center/cover no-repeat fixed;
+            min-height: 100vh;
+            color: #fff;
+            font-family: 'Overlock', cursive;
+        }
+
+        /* ─── Page Wrapper ─── */
+        .profile-page {
+            padding: 110px 20px 80px;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        /* ─── AVATAR BANNER ─── */
+        .profile-banner {
+            position: relative;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .avatar-ring {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            background: linear-gradient(135deg, #1a0a00, #3a1800);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            box-shadow:
+                0 0 0 3px #d4af37,
+                0 0 30px rgba(212, 175, 55, 0.4),
+                inset 0 0 25px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+        }
+
+        .profile-name {
+            font-family: 'Overlock', cursive;
+            font-size: 2.2rem;
+            background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .atom-id-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 20px;
+            padding: 4px 18px;
+            font-size: 0.78rem;
+            color: #d4af37;
+            letter-spacing: 3px;
+        }
+
+        /* ─── Divider ─── */
+        .gold-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37 40%, #d4af37 60%, transparent);
+            margin: 32px 0;
+            opacity: 0.35;
+        }
+
+        /* ─── Section Label ─── */
+        .section-label {
+            font-size: 0.72rem;
+            letter-spacing: 4px;
+            color: #b8860b;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        /* ─── Info Grid ─── */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 36px;
+        }
+
+        .info-card {
+            background: rgba(15, 12, 35, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            border-radius: 14px;
+            padding: 20px 22px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #d4af37, transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: rgba(212, 175, 55, 0.45);
+            box-shadow: 0 6px 28px rgba(212, 175, 55, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
+        }
+
+        .info-label {
+            font-size: 0.68rem;
+            color: #b8860b;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 1.05rem;
+            color: #fff3a0;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        /* ─── Events Section ─── */
+        .events-section {
+            margin-bottom: 40px;
+        }
+
+        .events-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(15, 12, 35, 0.55);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            min-height: 80px;
+            align-items: center;
+        }
+
+        .event-chip {
+            background: linear-gradient(145deg, #2a0000, #7a0000);
+            border: 1px solid #d4af37;
+            border-radius: 30px;
+            padding: 9px 22px;
+            color: #ffe27a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 0 14px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s;
+            font-family: 'Overlock', cursive;
+        }
+
+        .event-chip:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 22px rgba(212, 175, 55, 0.45);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* ─── Action Buttons ─── */
+        .profile-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 36px;
+        }
+
+        .btn-action {
+            padding: 13px 36px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            font-family: 'Overlock', cursive;
+            letter-spacing: 0.07em;
+            cursor: pointer;
+            transition: all 0.35s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-events {
+            background: linear-gradient(145deg, #2a0000, #7a0000, #b30000);
+            border: 2px solid #d4af37;
+            color: #fff3a0;
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-events:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(145deg, #b30000, #7a0000, #2a0000);
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(212, 175, 55, 0.35);
+            color: #d4af37;
+            box-shadow: none;
+        }
+
+        .btn-logout:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+            transform: translateY(-2px);
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.2);
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-name {
+                font-size: 1.65rem;
+            }
+
+            .avatar-ring {
+                width: 88px;
+                height: 88px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-scaled">
+    <div class="fog"></div>
+    <div class="sparkle"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="https://www.psgtech.edu/" target="_blank">
+                <img src="../assets/images/psg.png" class="nav-logo" alt="PSG">
+            </a>
+            <img src="../assets/images/75yearsLogo_PSGCollegeofTech.png" class="nav-logo-large logo-white"
+                alt="75 Years PSG Tech">
+            <img src="../assets/images/100yearsLogo_PsgSonsCharities.png" class="nav-logo-large logo-white"
+                alt="100 Years PSG Sons">
+            <a href="https://www.psgtech.edu/dept/ece/ieee/" target="_blank">
+                <img src="../assets/images/ieee logo.png" class="nav-logo2" alt="IEEE">
+            </a>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contacts.html">Contact</a></li>
+            <li><a class="active" href="#">Profile</a></li>
+            <li><a href="#" onclick="handleLogout(event)">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- ================= PROFILE ================= -->
+    <div class="profile-page">
+
+        <!-- Avatar + Name Banner -->
+        <div class="profile-banner">
+            <div class="avatar-ring" id="avatarEmoji">🧙</div>
+            <div class="profile-name" id="profileName">Loading...</div>
+            <div class="atom-id-badge" id="atomId">ATOM2K26 · · ·</div>
+        </div>
+
+        <!-- PSG-iTech student notice -->
+        <div class="red-info-card">
+            <p>
+                The students participating from PSG-iTECH for the paper presentation and workshops are required to
+                produce the bonafide certificate with college seal at the time of registration.
+            </p>
+        </div>
+
+        <div class="gold-divider"></div>
+
+        <!-- Info Cards -->
+        <p class="section-label">Wizard Details</p>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-label">Full Name</div>
+                <div class="info-value" id="pName">—</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Email</div>
+                <div class="info-value" id="pEmail">—</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Mobile</div>
+                <div class="info-value" id="pMobile">—</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">College</div>
+                <div class="info-value" id="pCollege">—</div>
+            </div>
+        </div>
+
+        <div class="gold-divider"></div>
+
+        <!-- Events -->
+        <div class="events-section">
+            <p class="section-label">Registered Events</p>
+            <div class="events-wrap" id="eventsList">
+                <div class="empty-state">Loading events...</div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="profile-actions">
+            <a href="events.html" class="btn-action btn-events">⚡ Browse Events</a>
+            <button class="btn-action btn-logout" onclick="handleLogout(event)">↩ Logout</button>
+        </div>
+
+    </div>
+
+    <script>
+        // PSG-iTech Alert
+        window.addEventListener('load', () => {
+            alert("The students participating from PSG-iTECH for the paper presentation and workshops are required to produce the bonafide certificate with college seal at the time of registration.");
+        });
+
+        (async () => {
+            // ─── Load Profile ───
+            try {
+                const res = await fetch('/api/events/profile');
+                if (!res.ok) throw new Error('Not authenticated');
+                const p = await res.json();
+
+                document.getElementById('profileName').textContent = p.username;
+                document.getElementById('atomId').textContent = p.atomId || 'ATOM 2K26';
+                document.getElementById('pName').textContent = p.username;
+                document.getElementById('pEmail').textContent = p.email;
+                document.getElementById('pMobile').textContent = p.mobile || '—';
+                document.getElementById('pCollege').textContent = p.college || '—';
+
+                // Pick avatar emoji from name initial
+                const initials = ['🧙', '🪄', '⚡', '🔮', '🦉', '🐉', '🏰', '✨'];
+                const idx = p.username.charCodeAt(0) % initials.length;
+                document.getElementById('avatarEmoji').textContent = initials[idx];
+            } catch {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // ─── Load Events ───
+            try {
+                const res = await fetch('/api/events/my-events');
+                const data = await res.json();
+                const container = document.getElementById('eventsList');
+
+                if (!data.events || data.events.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No events registered yet — go explore!</div>';
+                } else {
+                    container.innerHTML = data.events
+                        .map(ev => `<div class="event-chip">⚡ ${ev}</div>`)
+                        .join('');
+                }
+            } catch (err) {
+                console.error('Events load error:', err);
+            }
+        })();
+    </script>
+
+    <script src="../js/global.js"></script>
+</body>
+
+</html>
