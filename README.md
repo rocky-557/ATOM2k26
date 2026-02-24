@@ -47,14 +47,33 @@ Expected output:
 
 ---
 
-## Quick Start — Docker
+## Quick Start — Docker (For Others to Run)
 
+To run this backend on any machine, you **only** need Docker and Git installed. No Node.js or MongoDB required!
+
+**1. Clone the repository:**
 ```bash
-docker-compose up -d --build   # build & start
-docker-compose ps              # verify containers
-docker-compose logs -f app     # stream logs
-docker-compose down            # stop
-docker-compose down -v         # stop + delete all data
+git clone https://github.com/rocky-557/ATOM2k26.git
+cd ATOM2k26
+```
+
+**2. Start the application:**
+```bash
+docker-compose up -d --build
+```
+This single command will:
+- Download the MongoDB database image
+- Build the Node.js application from source
+- Connect them together and start them in the background
+
+The backend will then be accessible at `http://localhost:3000`.
+
+**Useful Docker Commands:**
+```bash
+docker-compose ps              # verify containers are running
+docker-compose logs -f app     # stream the Node.js logs
+docker-compose down            # stop everything
+docker-compose down -v         # stop + delete all database data
 ```
 
 ---
