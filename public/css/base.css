@@ -143,15 +143,42 @@ body.home-page {
 
 .nav-left {
   display: flex;
-  gap: 10px;
-  /* narrowed from 14px */
+  gap: 20px;
   align-items: center;
 }
 
+.psg-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.psg-school-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.nav-separator {
+  width: 1px;
+  height: 40px;
+  background: rgba(212, 175, 55, 0.3);
+  margin: 0 5px;
+}
+
+.logos-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
 
 .nav-logo {
-  height: 42px;
+  height: 54px;
   transition: .3s;
 }
 
@@ -160,7 +187,7 @@ body.home-page {
 }
 
 .nav-logo2 {
-  height: 52px;
+  height: 66px;
   transition: .3s;
 }
 
@@ -169,7 +196,7 @@ body.home-page {
 }
 
 .nav-logo-large {
-  height: 65px;
+  height: 84px;
   transition: .3s;
 }
 

@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&display=swap" rel="stylesheet">
@@ -19,16 +20,23 @@
   <!-- ================= NAVBAR ================= -->
   <nav class="navbar">
     <div class="nav-left">
-      <a href="https://www.psgtech.edu/" target="_blank">
-        <img src="../assets/images/psg.png" class="nav-logo" alt="PSG">
-      </a>
-      <img src="../assets/images/75yearsLogo_PSGCollegeofTech.png" class="nav-logo-large logo-white"
-        alt="75 Years PSG Tech">
-      <img src="../assets/images/100yearsLogo_PsgSonsCharities.png" class="nav-logo-large logo-white"
-        alt="100 Years PSG Sons">
-      <a href="https://www.psgtech.edu/dept/ece/ieee/" target="_blank">
-        <img src="../assets/images/ieee logo.png" class="nav-logo2" alt="IEEE">
-      </a>
+      <div class="psg-brand">
+        <a href="https://www.psgtech.edu/" target="_blank">
+          <img src="../assets/images/psg.png" class="nav-logo" alt="PSG">
+        </a>
+        <span class="psg-school-name">PSG College of Technology</span>
+      </div>
+      <div class="nav-separator"></div>
+      <div class="logos-container">
+
+        <img src="../assets/images/75yearsLogo_PSGCollegeofTech.png" class="nav-logo-large logo-white"
+          alt="75 Years PSG Tech">
+        <img src="../assets/images/100yearsLogo_PsgSonsCharities.png" class="nav-logo-large logo-white"
+          alt="100 Years PSG Sons">
+        <a href="https://www.psgtech.edu/dept/ece/ieee/" target="_blank">
+          <img src="../assets/images/ieee logo.png" class="nav-logo2" alt="IEEE">
+        </a>
+      </div>
     </div>
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
     <ul class="nav-menu" id="navMenu">

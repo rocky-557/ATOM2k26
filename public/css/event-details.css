@@ -155,7 +155,6 @@ body.font-scaled .event-main-title {
 /* ================= ⭐ SMOOTH BODY (MAJOR FIX) ================= */
 .card-body {
   max-height: 0;
-  overflow: hidden;
 
   opacity: 0;
   transform: translateY(-8px);

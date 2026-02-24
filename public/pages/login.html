@@ -327,9 +327,7 @@
 
   <script>
     // PSG-iTech Alert
-    window.addEventListener('load', () => {
-      alert("The students participating from PSG-iTECH for the paper presentation and workshops are required to produce the bonafide certificate with college seal at the time of registration.");
-    });
+
 
     /* ── LOGIN ── */
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -471,6 +469,10 @@
         }
       } catch { showError('step3Error', 'Network error. Please try again.'); }
     }
+
+    window.addEventListener('load', () => {
+      alert("The students participating from PSG-iTECH for the paper presentation and workshops are required to produce the bonafide certificate with college seal at the time of registration.");
+    });
   </script>
   <!-- ✅ GLOBAL SCRIPT (MUST BE LAST) -->
   <script src="../js/global.js"></script>
