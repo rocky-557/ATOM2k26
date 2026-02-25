@@ -14,8 +14,11 @@ body {
   overflow-x: hidden;
   background:
     linear-gradient(rgba(10, 10, 30, 0.78), rgba(10, 10, 30, 0.92)),
-    url("../assets/images/bg_home.jpg") center/cover no-repeat;
+    url("../assets/images/bg_home.jpg") center/cover no-repeat fixed;
+  /* Added fixed */
 }
+
+/* ================= NAVBAR ================= */
 
 /* ================= NAVBAR ================= */
 .navbar {
@@ -36,8 +39,8 @@ body {
 
 /* ================= HERO ================= */
 .events-hero {
-  min-height: 100vh;
-  padding: 140px 20px 80px;
+  min-height: 85vh;
+  padding: 160px 20px 100px;
   max-width: 1300px;
   margin: 0 auto;
 }

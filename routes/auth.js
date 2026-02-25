@@ -19,13 +19,4 @@ router.get('/session', authController.getSession);
 // POST /api/auth/logout
 router.post('/logout', authController.logout);
 
-// POST /api/auth/forgot-password — send OTP
-router.post('/forgot-password', authController.forgotPassword);
-
-// POST /api/auth/verify-otp — validate OTP
-router.post('/verify-otp', authController.verifyOtp);
-
-// POST /api/auth/reset-password — update password
-router.post('/reset-password', authController.resetPassword);
-
 module.exports = router;

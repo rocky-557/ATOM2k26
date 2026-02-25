@@ -69,7 +69,9 @@
           <button class="toggle-btn">+</button>
         </div>
         <div class="card-body">
-          <p id="eventDesc"></p>
+          <div class="card-body-inner">
+            <p id="eventDesc"></p>
+          </div>
         </div>
       </div>
 
@@ -80,7 +82,9 @@
           <button class="toggle-btn">+</button>
         </div>
         <div class="card-body">
-          <ol id="generalRules"></ol>
+          <div class="card-body-inner">
+            <ol id="generalRules"></ol>
+          </div>
         </div>
       </div>
 
@@ -91,7 +95,9 @@
           <button class="toggle-btn">+</button>
         </div>
         <div class="card-body">
-          <ol id="eventRules"></ol>
+          <div class="card-body-inner">
+            <ol id="eventRules"></ol>
+          </div>
         </div>
       </div>
 
@@ -115,7 +121,7 @@
       </div>
     </div>
 
-    <button class="register-btn" onclick="showLogin()">Register Now</button>
+    <button class="register-btn" id="regBtn" onclick="handleRegisterEvent()">Register Now</button>
 
   </section>
 
@@ -222,7 +228,7 @@
         general: SHARED_RULES,
         rules: [
           "Gridlock Hunt: Collect color-coded clues to decode a secret word.",
-          "Spice Zone: Design and simulate accurately using LTspice."
+          "Spice Zone: Design and simulate accurately using multisim."
         ],
         team: "2-3 Members",
         date: "March 6, 2026",
@@ -244,11 +250,11 @@
       },
       quizcraft: {
         title: "QUIZCRAFT",
-        desc: "A high-energy technical challenge to evaluate participants' core technical knowledge, aptitude, and responsiveness under pressure.\n\n**Round 1: Tech Buzz Arena**\n*Buzzering With Brilliance.*\nEvaluate core knowledge through rapid-fire questions and interactive mini-games. This round emphasizes conceptual clarity and speed of response.\n\n**Round 2: Smart Home Sprint**\n*\"Build smart,Think Smart\"*\nAssess creativity and technical understanding of smart technologies through a hands-on design and technical reasoning challenge.",
+        desc: "A high-energy technical challenge to evaluate participants' core technical knowledge, aptitude, and responsiveness under pressure.\n\n**Round 1: Tech Buzz Arena**\n*Buzzering With Brilliance.*\nEvaluate core knowledge through rapid-fire questions and interactive mini-games. This round emphasizes conceptual clarity and speed of response.\n\n**Round 2: Smart Home Sprint**\nDesigning a smart home using sensors on paper and solving a technical crossword.",
         general: SHARED_RULES,
         rules: [
           "Tech Buzz Arena: Rapid-fire questions with buzzering action.",
-          "Smart Home Sprint: Design and reason through smart home automation."
+          "Smart Home Sprint: Designing a smart home using sensors on paper and solving a technical crossword."
         ],
         team: "2 Members",
         date: "March 5, 2026",
@@ -299,14 +305,13 @@
       },
       moviemania: {
         title: "MOVIE MANIA",
-        desc: "Movie Mania is a dynamic multi-round event testing movie knowledge, listening skills, and quick thinking. Progressive scoring systems reward speed, accuracy, teamwork, and focus.\n\n**Round 1: CINE CLUE CHALLENGE**\n*No scenes. Just suspense.*\nAnalyze 4–5 progressive written clues describing character roles and themes. Guess the correct title within 10–15 seconds per hint.\n\n**Round 2: BEAT THE LYRICS**\n*One verse. One guess.*\nHost recites lyrics from the middle of a track. Teams must identify the song and its movie within 10–15 seconds.\n\n**Round 3: DIALOGUE CONFUSION (BONUS)**\n*One quote. One shot at glory.*\nIdentify movies from iconic dialogues. Conducted only if time permits as an optional bonus round.\n\n**Round 4: RAPID FIRE (BONUS)**\n*Rapid clues. Rapid glory.*\nAnswer as many movie-related clues as possible in 60 seconds. Moderator delivers quick hints about plots and characters.",
+        desc: "Movie Mania is a dynamic multi-round event testing movie knowledge, listening skills, and quick thinking. Progressive scoring systems reward speed, accuracy, teamwork, and focus.\n\n**Round 1: CINE CLUE CHALLENGE**\n*No scenes. Just suspense.*\nAnalyze 4–5 progressive written clues describing character roles and themes. Guess the correct title within 10–15 seconds per hint.\n\n**Round 2: BEAT THE LYRICS**\n*One verse. One guess.*\nHost recites lyrics from the middle of a track. Teams must identify the song and its movie within 10–15 seconds.\n\n**Round 3: DIALOGUE CONFUSION (BONUS)**\n*One quote. One shot at glory.*\nIdentify movies from iconic dialogues. Conducted only if time permits as an optional bonus round.",
         general: SHARED_RULES,
         rules: [
           "Cine Clue: Guess movies from character and theme hints.",
-          "Beat the Lyrics: Host recites lyrics; you name the track/film.",
-          "Rapid Fire: 60 seconds of back-to-back movie plot clues."
+          "Beat the Lyrics: Host recites lyrics; you name the track/film."
         ],
-        team: "2-4 Members",
+        team: "2-3 Members",
         date: "March 5, 2026",
         contact1: "PRITHIV VENKATESWARAN - 8925363388",
         contact2: "KIRUPALIKAA NM - 7418655976"
@@ -335,7 +340,7 @@
           "Pitch Day: 10 mins presentation + 5 mins Q&A session."
         ],
         team: "2-3 Members",
-        date: "March 4, 2026",
+        date: "March 7, 2026",
         contact1: "innovatexatom2k26@gmail.com",
         contact2: ""
       },
@@ -348,7 +353,7 @@
           "Live presentation: Defend your design decisions before experts."
         ],
         team: "2-3 Members",
-        date: "March 4, 2026",
+        date: "March 7, 2026",
         contact1: "pp2.psgtech@gmail.com",
         contact2: ""
       },
@@ -358,9 +363,11 @@
         general: SHARED_RULES,
         rules: [
           "Morning: Fundamental EV architecture and BMS.",
-          "Afternoon: MATLAB/Proteus simulation and mini project activity."
+          "Afternoon: MATLAB/Proteus simulation and mini project activity.",
+          "Participants must bring their own laptops.",
+          "This is a non-competitive workshop (no winners or runners)."
         ],
-        team: "Individual / Team 2",
+        team: "Individual",
         date: "March 7, 2026",
         contact1: "Dhesiya Muhilan - 9092570090",
         contact2: "Pranav Varshan M"
@@ -423,7 +430,52 @@
       });
     }
 
-    /* ================= POPUP ================= */
+    /* ================= REGISTER EVENT ================= */
+    async function handleRegisterEvent() {
+      console.log("Register button clicked");
+      const btn = document.getElementById("regBtn");
+      btn.disabled = true;
+      btn.textContent = "Processing...";
+
+      try {
+        console.log("Checking session...");
+        const sessionRes = await fetch('/api/auth/session');
+        if (!sessionRes.ok) throw new Error("Session check failed");
+
+        const sessionData = await sessionRes.json();
+        console.log("Session data:", sessionData);
+
+        if (!sessionData.loggedIn) {
+          console.log("User not logged in, showing popup");
+          showLogin();
+          return;
+        }
+
+        const eventTitle = document.getElementById("eventTitle").textContent;
+        console.log("Registering for event:", eventTitle);
+        const regRes = await fetch('/api/events/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ evname: eventTitle })
+        });
+
+        if (!regRes.ok) {
+          const errData = await regRes.json();
+          throw new Error(errData.error || "Registration failed");
+        }
+
+        const regData = await regRes.json();
+        console.log("Registration response:", regData);
+        alert("🎉 Registration successful! See you at " + eventTitle);
+      } catch (err) {
+        console.error("Registration error:", err);
+        alert("⚠️ " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Register Now";
+      }
+    }
+
     function showLogin() {
       document.getElementById("loginPopup").style.display = "flex";
     }

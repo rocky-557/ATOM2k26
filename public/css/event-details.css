@@ -7,6 +7,12 @@
 
 
 /* ================= BODY ================= */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   font-family: 'Overlock', cursive;
   color: white;
@@ -14,12 +20,15 @@ body {
     linear-gradient(rgba(10, 10, 30, .82), rgba(10, 10, 30, .92)),
     url("../assets/images/bg_home.jpg") center/cover no-repeat fixed;
   font-size: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 body.font-scaled {
   font-size: 22px;
   /* Base scaled size */
 }
+
 
 /* ================= NAVBAR ================= */
 .navbar {
@@ -54,9 +63,18 @@ body.font-scaled {
 
 /* ================= HERO ================= */
 .details-hero {
+  flex: 1;
+  overflow-y: auto;
   padding: 140px 20px 80px;
   max-width: 900px;
   margin: auto;
+  width: 100%;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.details-hero::-webkit-scrollbar {
+  display: none;
 }
 
 /* ================= BACK BUTTON ================= */
@@ -152,28 +170,26 @@ body.font-scaled .event-main-title {
   color: #ff6b85;
 }
 
-/* ================= ⭐ SMOOTH BODY (MAJOR FIX) ================= */
+/* ================= ⭐ SMOOTH BODY (DYNAMIC GRID) ================= */
 .card-body {
   max-height: 0;
-
+  overflow: hidden;
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(-10px);
+  transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+}
 
-  transition:
-    max-height .55s cubic-bezier(.4, 0, .2, 1),
-    opacity .35s ease,
-    transform .35s ease;
-
-  will-change: max-height, opacity, transform;
+.card-body-inner {
+  overflow: hidden;
+  padding: 0 20px 20px;
 }
 
 /* OPEN STATE */
 .info-card.open .card-body {
-  max-height: 3000px;
-  /* Increased for very long descriptions */
+  max-height: 2000px;
   opacity: 1;
   transform: translateY(0);
-  margin-top: 14px;
+  margin-top: 15px;
 }
 
 /* --- RICH CONTENT STYLING --- */
@@ -256,6 +272,13 @@ body.font-scaled .event-main-title {
 .mini-card h4 {
   color: #ffe27a;
   margin-bottom: 6px;
+}
+
+.mini-card p {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 /* ================= REGISTER ================= */

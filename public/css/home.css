@@ -8,18 +8,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 999;
-  background: rgba(10, 10, 30, 0.88);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid transparent;
-  border-image: linear-gradient(90deg, #5a4300, #d4af37, #fff3a0, #d4af37, #5a4300) 1;
-}
 
 /* ================= HERO ================= */
 .hero {
@@ -51,6 +39,7 @@ body {
   font-family: 'Cinzel Decorative', serif;
   background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 30px rgba(212, 175, 55, 0.45);
 }
@@ -84,6 +73,7 @@ body {
   font-weight: 600;
   background: linear-gradient(45deg, #d4af37, #fff3a0, #b8860b);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -131,6 +121,7 @@ body {
   letter-spacing: 2.5px;
   background: linear-gradient(180deg, #fff3a0, #d4af37, #8b6b1f);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
