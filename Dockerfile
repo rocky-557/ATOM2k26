@@ -19,5 +19,5 @@ COPY . .
 RUN chown -R atom:atom /app
 USER atom
 
-EXPOSE 3000
+EXPOSE 3900
 CMD ["node", "server.js"]

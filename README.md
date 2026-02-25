@@ -85,7 +85,7 @@ Create a `.env` file in `atom_bknd/`:
 ```env
 # Server
 NODE_ENV=development
-PORT=3000
+PORT=3900
 HOST=0.0.0.0
 
 # MongoDB
@@ -208,9 +208,9 @@ User → "Forgot Password?" → Enter Email
 
 ## Troubleshooting
 
-**Port 3000 in use:**
+**Port 3900 in use:**
 ```bash
-sudo fuser -k 3000/tcp
+sudo fuser -k 3900/tcp
 ```
 
 **MongoDB won't connect:**

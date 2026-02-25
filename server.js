@@ -15,7 +15,7 @@ const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3900;
 const HOST = process.env.HOST || '0.0.0.0';
 
 // ─── Security Headers ──────────────
