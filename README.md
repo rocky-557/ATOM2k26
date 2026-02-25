@@ -22,7 +22,7 @@
 
 ### Prerequisites
 - Node.js v18+
-- MongoDB v6+ running locally
+- MongoDB v6+ running locally on port 27107
 
 ```bash
 # 1. Install dependencies
@@ -41,8 +41,8 @@ npm run dev
 
 Expected output:
 ```
-✅ MongoDB connected: mongodb://localhost:27017/atom2k26
-🚀 ATOM 2K26 Backend running at http://0.0.0.0:3000
+✅ MongoDB connected: mongodb://localhost:27107/atom2k26
+🚀 ATOM 2K26 Backend running at http://0.0.0.0:3900
 ```
 
 ---
@@ -66,7 +66,7 @@ This single command will:
 - Build the Node.js application from source
 - Connect them together and start them in the background
 
-The backend will then be accessible at `http://localhost:3000`.
+The backend will then be accessible at `http://localhost:3900`.
 
 **Useful Docker Commands:**
 ```bash
@@ -89,9 +89,10 @@ PORT=3000
 HOST=0.0.0.0
 
 # MongoDB
-MONGO_URI=mongodb://localhost:27017/atom2k26
+MONGO_URI=mongodb://localhost:27107/atom2k26
 
 # Session (generate a 64-char random hex)
+PORT=3900
 SESSION_SECRET=your_64_char_hex_secret
 
 # Admin password (bcrypt hash)

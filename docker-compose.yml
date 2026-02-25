@@ -4,10 +4,11 @@ services:
     container_name: atom-backend
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3900:3900"
     env_file: .env
     environment:
-      - MONGO_URI=mongodb://mongo:27017/atom2k26
+      - PORT=3900
+      - MONGO_URI=mongodb://mongo:27107/atom2k26
       - ADMIN_PASSWORD_HASH=$$2a$$12$$s3/CU14gmyD8zy4aem1ywube1IWm1l26mzVvQ4IKRC0uabyGHTpPq
     depends_on:
       mongo:
@@ -17,6 +18,9 @@ services:
     image: mongo:7
     container_name: atom-mongo
     restart: unless-stopped
+    ports:
+      - "27107:27107"
+    command: ["mongod", "--port", "27107"]
     volumes:
       - mongo_data:/data/db
 
