@@ -357,6 +357,120 @@
         align-items: flex-start;
       }
     }
+
+    /* ── User Search Modal (Ctrl+P) ── */
+    #userModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+
+    .modal-head {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-head h3 {
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .search-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .search-group input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .results-area {
+      max-height: 200px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .user-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .user-item:hover {
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .user-item input[type="radio"] {
+      margin-right: 12px;
+      accent-color: var(--gold);
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-info .u-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    .user-info .u-mail {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .reset-area {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      display: none;
+    }
+
+    .modal-close {
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
   </style>
 </head>
 
@@ -491,73 +605,114 @@
         </div>
       </div>
 
-    </div>
-  </div>
+      <!-- ══════════ USER MANAGEMENT MODAL (Ctrl+P) ══════════ -->
+      <div id="userModal">
+        <div class="modal-box">
+          <div class="modal-head">
+            <h3>User Password Reset</h3>
+            <span class="modal-close" onclick="closeUserModal()">&times;</span>
+          </div>
+          <div class="modal-body">
+            <p style="font-size:0.8rem; color:var(--muted); margin-bottom:15px;">Search and select a user to update
+              their password.</p>
 
-  <script>
-    let _adminPwd = '';
+            <div class="search-group">
+              <input type="text" id="userSearchInput" placeholder="Search by name or email..."
+                oninput="debouncedSearch()">
+            </div>
 
-    /* ── Login ── */
-    async function doLogin() {
-      const pwd = document.getElementById('adminPwd').value;
-      if (!pwd) return;
+            <div class="results-area" id="searchResults">
+              <div style="padding:20px; text-align:center; color:var(--muted); font-size:0.85rem;">Type to search
+                users...</div>
+            </div>
 
-      const err = document.getElementById('loginErr');
-      err.style.display = 'none';
+            <div class="reset-area" id="resetArea">
+              <div class="field-group">
+                <label>New Password</label>
+                <input type="password" id="newPassInput" placeholder="Enter new password">
+              </div>
+              <button class="btn-primary" onclick="confirmReset()" id="btnReset">Update Password</button>
+              <div id="resetFeedback" style="margin-top:10px; font-size:0.85rem;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      try {
-        const res = await fetch('/api/admin/stats', {
-          headers: { 'x-admin-password': pwd }
+      <script>
+        let _adminPwd = '';
+        let _searchTimer = null;
+        let _selectedUserId = null;
+
+        // Detect Ctrl+P
+        window.addEventListener('keydown', (e) => {
+          if (e.ctrlKey && e.key === 'p') {
+            e.preventDefault();
+            if (_adminPwd) openUserModal();
+          }
+          if (e.key === 'Escape') closeUserModal();
         });
-        if (!res.ok) {
-          err.style.display = 'block';
-          return;
-        }
-        const data = await res.json();
 
-        _adminPwd = pwd;
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
+        /* ── Login ── */
+        async function doLogin() {
+          const pwd = document.getElementById('adminPwd').value;
+          if (!pwd) return;
 
-        // populate stats
-        document.getElementById('statUsers').textContent = data.totalUsers ?? '—';
-        document.getElementById('statRegs').textContent = data.totalRegistrations ?? '—';
-        document.getElementById('statUniq').textContent = data.usersWithEvents ?? '—';
+          const err = document.getElementById('loginErr');
+          err.style.display = 'none';
 
-        loadRegistrations();
-        loadUnregistered();
-      } catch {
-        err.style.display = 'block';
-      }
-    }
+          try {
+            const res = await fetch('/api/admin/stats', {
+              headers: { 'x-admin-password': pwd }
+            });
+            if (!res.ok) {
+              err.style.display = 'block';
+              return;
+            }
+            const data = await res.json();
 
-    function doLogout() {
-      _adminPwd = '';
-      document.getElementById('adminPwd').value = '';
-      document.getElementById('dashboard').style.display = 'none';
-      document.getElementById('loginScreen').style.display = 'flex';
-    }
+            _adminPwd = pwd;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
 
-    /* ── Load Registrations ── */
-    async function loadRegistrations() {
-      const event = document.getElementById('eventSelect').value;
-      const url = '/api/admin/registrations' + (event ? `?event=${event}` : '');
-      const tbody = document.getElementById('regBody');
-      tbody.innerHTML = `<tr><td colspan="6" class="no-data">Loading...</td></tr>`;
+            // populate stats
+            document.getElementById('statUsers').textContent = data.totalUsers ?? '—';
+            document.getElementById('statRegs').textContent = data.totalRegistrations ?? '—';
+            document.getElementById('statUniq').textContent = data.usersWithEvents ?? '—';
 
-      try {
-        const res = await fetch(url, { headers: { 'x-admin-password': _adminPwd } });
-        const json = await res.json();
-        const rows = json.data || [];
-
-        document.getElementById('regCount').textContent = rows.length;
-
-        if (!rows.length) {
-          tbody.innerHTML = `<tr><td colspan="6" class="no-data">No registrations found.</td></tr>`;
-          return;
+            loadRegistrations();
+            loadUnregistered();
+          } catch {
+            err.style.display = 'block';
+          }
         }
 
-        tbody.innerHTML = rows.map((r, i) => `
+        function doLogout() {
+          _adminPwd = '';
+          document.getElementById('adminPwd').value = '';
+          document.getElementById('dashboard').style.display = 'none';
+          document.getElementById('loginScreen').style.display = 'flex';
+        }
+
+        /* ── Load Registrations ── */
+        async function loadRegistrations() {
+          const event = document.getElementById('eventSelect').value;
+          const url = '/api/admin/registrations' + (event ? `?event=${event}` : '');
+          const tbody = document.getElementById('regBody');
+          tbody.innerHTML = `<tr><td colspan="6" class="no-data">Loading...</td></tr>`;
+
+          try {
+            const res = await fetch(url, { headers: { 'x-admin-password': _adminPwd } });
+            const json = await res.json();
+            const rows = json.data || [];
+
+            document.getElementById('regCount').textContent = rows.length;
+
+            if (!rows.length) {
+              tbody.innerHTML = `<tr><td colspan="6" class="no-data">No registrations found.</td></tr>`;
+              return;
+            }
+
+            tbody.innerHTML = rows.map((r, i) => `
         <tr>
           <td style="color:var(--muted)">${i + 1}</td>
           <td style="font-weight:500;color:#fff">${esc(r.username)}</td>
@@ -567,40 +722,40 @@
           <td style="color:var(--muted)">${formatDate(r.registration_date)}</td>
         </tr>
       `).join('');
-      } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="6" class="no-data">Error loading data.</td></tr>`;
-      }
-    }
-
-    /* ── Export Excel ── */
-    function exportExcel() {
-      const table = document.getElementById('regTable');
-      const wb = XLSX.utils.table_to_book(table, { sheet: 'Registrations' });
-      const event = document.getElementById('eventSelect').value || 'All';
-      XLSX.writeFile(wb, `ATOM2K26_Registrations_${event}_${today()}.xlsx`);
-    }
-
-    /* ── Export Unregistered ── */
-    function exportUnreg() {
-      const table = document.getElementById('unregTable');
-      const wb = XLSX.utils.table_to_book(table, { sheet: 'No Events' });
-      XLSX.writeFile(wb, `ATOM2K26_NoEvents_${today()}.xlsx`);
-    }
-
-    /* ── Load Unregistered Users ── */
-    async function loadUnregistered() {
-      const tbody = document.getElementById('unregBody');
-      tbody.innerHTML = `<tr><td colspan="3" class="no-data">Loading...</td></tr>`;
-      try {
-        const res = await fetch('/api/admin/unregistered', { headers: { 'x-admin-password': _adminPwd } });
-        const json = await res.json();
-        const rows = json.data || [];
-        document.getElementById('unregCount').textContent = rows.length;
-        if (!rows.length) {
-          tbody.innerHTML = `<tr><td colspan="3" class="no-data">All signed-up users have registered for events.</td></tr>`;
-          return;
+          } catch (e) {
+            tbody.innerHTML = `<tr><td colspan="6" class="no-data">Error loading data.</td></tr>`;
+          }
         }
-        tbody.innerHTML = rows.map((r, i) => `
+
+        /* ── Export Excel ── */
+        function exportExcel() {
+          const table = document.getElementById('regTable');
+          const wb = XLSX.utils.table_to_book(table, { sheet: 'Registrations' });
+          const event = document.getElementById('eventSelect').value || 'All';
+          XLSX.writeFile(wb, `ATOM2K26_Registrations_${event}_${today()}.xlsx`);
+        }
+
+        /* ── Export Unregistered ── */
+        function exportUnreg() {
+          const table = document.getElementById('unregTable');
+          const wb = XLSX.utils.table_to_book(table, { sheet: 'No Events' });
+          XLSX.writeFile(wb, `ATOM2K26_NoEvents_${today()}.xlsx`);
+        }
+
+        /* ── Load Unregistered Users ── */
+        async function loadUnregistered() {
+          const tbody = document.getElementById('unregBody');
+          tbody.innerHTML = `<tr><td colspan="3" class="no-data">Loading...</td></tr>`;
+          try {
+            const res = await fetch('/api/admin/unregistered', { headers: { 'x-admin-password': _adminPwd } });
+            const json = await res.json();
+            const rows = json.data || [];
+            document.getElementById('unregCount').textContent = rows.length;
+            if (!rows.length) {
+              tbody.innerHTML = `<tr><td colspan="3" class="no-data">All signed-up users have registered for events.</td></tr>`;
+              return;
+            }
+            tbody.innerHTML = rows.map((r, i) => `
           <tr>
             <td style="color:var(--muted)">${i + 1}</td>
             <td>${esc(r.email)}</td>
@@ -608,32 +763,138 @@
             <td>${esc(r.mobile || '—')}</td>
           </tr>
         `).join('');
-      } catch {
-        tbody.innerHTML = `<tr><td colspan="3" class="no-data">Error loading data.</td></tr>`;
-      }
-    }
+          } catch {
+            tbody.innerHTML = `<tr><td colspan="3" class="no-data">Error loading data.</td></tr>`;
+          }
+        }
 
-    /* ── Helpers ── */
-    function esc(s) {
-      return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
+        /* ── Helpers ── */
+        function esc(s) {
+          return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
 
-    function formatEvents(evname) {
-      if (!evname) return '—';
-      return evname.split(',').map(e => `<span class="event-tag">${esc(e.trim())}</span>`).join(' ');
-    }
+        function formatEvents(evname) {
+          if (!evname) return '—';
+          return evname.split(',').map(e => `<span class="event-tag">${esc(e.trim())}</span>`).join(' ');
+        }
 
-    function formatDate(d) {
-      if (!d) return '—';
-      try { return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); }
-      catch { return d; }
-    }
+        function formatDate(d) {
+          if (!d) return '—';
+          try { return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }); }
+          catch { return d; }
+        }
 
-    function today() {
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    }
-  </script>
+        function today() {
+          const d = new Date();
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        /* ── User Modal Logic ── */
+        function openUserModal() {
+          document.getElementById('userModal').style.display = 'flex';
+          document.getElementById('userSearchInput').focus();
+        }
+
+        function closeUserModal() {
+          document.getElementById('userModal').style.display = 'none';
+          document.getElementById('searchResults').innerHTML = '<div style="padding:20px; text-align:center; color:var(--muted); font-size:0.85rem;">Type to search users...</div>';
+          document.getElementById('userSearchInput').value = '';
+          document.getElementById('resetArea').style.display = 'none';
+          document.getElementById('newPassInput').value = '';
+          document.getElementById('resetFeedback').textContent = '';
+          _selectedUserId = null;
+        }
+
+        function debouncedSearch() {
+          clearTimeout(_searchTimer);
+          _searchTimer = setTimeout(() => {
+            const q = document.getElementById('userSearchInput').value.trim();
+            if (q.length < 2) return;
+            doUserSearch(q);
+          }, 400);
+        }
+
+        async function doUserSearch(q) {
+          const resultsDiv = document.getElementById('searchResults');
+          resultsDiv.innerHTML = '<div style="padding:20px; text-align:center; color:var(--muted); font-size:0.85rem;">Searching...</div>';
+
+          try {
+            const res = await fetch(`/api/admin/search-users?q=${encodeURIComponent(q)}`, {
+              headers: { 'x-admin-password': _adminPwd }
+            });
+            const json = await res.json();
+            const users = json.data || [];
+
+            if (!users.length) {
+              resultsDiv.innerHTML = '<div style="padding:20px; text-align:center; color:var(--muted); font-size:0.85rem;">No matching users found.</div>';
+              document.getElementById('resetArea').style.display = 'none';
+              return;
+            }
+
+            resultsDiv.innerHTML = users.map(u => `
+          <div class="user-item" onclick="selectUser('${u._id}')">
+            <input type="radio" name="userSel" value="${u._id}" id="u_${u._id}">
+            <div class="user-info">
+              <div class="u-name">${esc(u.username)}</div>
+              <div class="u-mail">${esc(u.email)}</div>
+            </div>
+          </div>
+        `).join('');
+          } catch (e) {
+            resultsDiv.innerHTML = '<div style="padding:20px; text-align:center; color:#ff6b6b; font-size:0.85rem;">Search failed.</div>';
+          }
+        }
+
+        function selectUser(id) {
+          _selectedUserId = id;
+          const radio = document.getElementById('u_' + id);
+          if (radio) radio.checked = true;
+          document.getElementById('resetArea').style.display = 'block';
+          document.getElementById('newPassInput').focus();
+        }
+
+        async function confirmReset() {
+          if (!_selectedUserId) return;
+          const newPassword = document.getElementById('newPassInput').value;
+          if (!newPassword || newPassword.length < 8) {
+            alert('Password must be at least 8 characters.');
+            return;
+          }
+
+          const btn = document.getElementById('btnReset');
+          const feedback = document.getElementById('resetFeedback');
+
+          btn.disabled = true;
+          btn.textContent = 'Updating...';
+          feedback.textContent = '';
+
+          try {
+            const res = await fetch('/api/admin/reset-password', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-admin-password': _adminPwd
+              },
+              body: JSON.stringify({ targetUserId: _selectedUserId, newPassword })
+            });
+            const data = await res.json();
+            if (res.ok) {
+              feedback.style.color = '#a0e0a0';
+              feedback.textContent = '✅ ' + data.message;
+              setTimeout(closeUserModal, 1500);
+            } else {
+              feedback.style.color = '#ff6b6b';
+              feedback.textContent = '❌ ' + (data.error || 'Failed to update password.');
+            }
+          } catch {
+            feedback.style.color = '#ff6b6b';
+            feedback.textContent = '❌ Network error.';
+          } finally {
+            btn.disabled = false;
+            btn.textContent = 'Update Password';
+          }
+        }
+      </script>
 
 </body>
 

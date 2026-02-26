@@ -6,6 +6,7 @@
 
 const User = require('../models/User');
 const Registration = require('../models/Registration');
+const bcrypt = require('bcryptjs');
 
 /**
  * GET /api/admin/registrations?event=EVENT_NAME
@@ -95,4 +96,54 @@ async function getUnregisteredUsers(req, res, next) {
     }
 }
 
-module.exports = { getRegistrations, getStats, getUnregisteredUsers };
+/**
+ * GET /api/admin/search-users?q=QUERY
+ */
+async function searchUsers(req, res, next) {
+    try {
+        const query = req.query.q || '';
+        if (!query) return res.json({ count: 0, data: [] });
+
+        const users = await User.find({
+            $or: [
+                { username: { $regex: query, $options: 'i' } },
+                { email: { $regex: query, $options: 'i' } }
+            ]
+        }, 'username email mobile').lean();
+
+        res.json({ count: users.length, data: users });
+    } catch (err) {
+        next(err);
+    }
+}
+
+/**
+ * POST /api/admin/reset-password
+ */
+async function resetUserPassword(req, res, next) {
+    try {
+        const { targetUserId, newPassword } = req.body;
+        if (!targetUserId || !newPassword) {
+            return res.status(400).json({ error: 'Target user ID and new password are required.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+        const result = await User.findByIdAndUpdate(targetUserId, { password: hashedPassword });
+
+        if (!result) {
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        res.json({ message: 'Password updated successfully!' });
+    } catch (err) {
+        next(err);
+    }
+}
+
+module.exports = {
+    getRegistrations,
+    getStats,
+    getUnregisteredUsers,
+    searchUsers,
+    resetUserPassword
+};
