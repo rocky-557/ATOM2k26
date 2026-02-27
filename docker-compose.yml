@@ -15,7 +15,7 @@ services:
         condition: service_started
 
   mongo:
-    image: mongo:4.4
+    image: mongo:7
     container_name: atom-mongo
     restart: unless-stopped
     ports:
