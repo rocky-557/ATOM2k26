@@ -140,10 +140,52 @@ async function resetUserPassword(req, res, next) {
     }
 }
 
+/**
+ * GET /api/public-stats
+ * Returns simple aggregate stats for the stats page.
+ */
+async function getPublicStats(req, res, next) {
+    try {
+        const password = req.headers['x-stats-password'];
+        if (password !== 'atom2k26') {
+            return res.status(401).json({ error: 'Unauthorized stats access.' });
+        }
+
+        const totalUsers = await User.countDocuments();
+        const totalRegistrations = await Registration.countDocuments();
+        const distinctEmails = await Registration.distinct('email');
+
+        // Event-wise breakdown
+        const registrations = await Registration.find({}, 'evname').lean();
+        const eventCounts = {};
+
+        registrations.forEach(reg => {
+            const evs = reg.evname.split(',').map(e => e.trim()).filter(Boolean);
+            evs.forEach(e => {
+                eventCounts[e] = (eventCounts[e] || 0) + 1;
+            });
+        });
+
+        const eventBreakdown = Object.keys(eventCounts)
+            .map(name => ({ name, count: eventCounts[name] }))
+            .sort((a, b) => b.count - a.count);
+
+        res.json({
+            totalUsers,
+            totalRegistrations,
+            usersWithEvents: distinctEmails.length,
+            eventBreakdown
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     getRegistrations,
     getStats,
     getUnregisteredUsers,
     searchUsers,
-    resetUserPassword
+    resetUserPassword,
+    getPublicStats
 };

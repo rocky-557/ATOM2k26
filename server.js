@@ -55,6 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/events', require('./routes/events'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/public-stats', require('./routes/stats'));
 
 // ─── Catch-all: serve frontend ──────
 app.get('*', (req, res) => {
