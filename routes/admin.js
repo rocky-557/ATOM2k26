@@ -26,4 +26,11 @@ router.get('/search-users', adminController.searchUsers);
 // POST /api/admin/reset-password
 router.post('/reset-password', adminController.resetUserPassword);
 
+// GET /api/admin/abstracts — list all uploaded abstracts
+router.get('/abstracts', adminController.getAbstractsList);
+
+// GET /api/admin/abstracts/download/:filename — download a specific abstract PDF
+router.get('/abstracts/download/:filename', adminController.downloadAbstract);
+
 module.exports = router;
+

@@ -25,7 +25,6 @@
             max-width: 1000px;
             width: 100%;
             display: none;
-            /* Hidden until authenticated */
         }
 
         .auth-container {
@@ -46,6 +45,15 @@
             color: #f4d97a;
             margin-bottom: 30px;
             text-align: center;
+        }
+
+        h2.section-title {
+            font-family: 'Cinzel Decorative', serif;
+            color: #f4d97a;
+            font-size: 1.3rem;
+            margin: 40px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
         }
 
         .input-group {
@@ -81,7 +89,6 @@
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
 
-        /* Stats Dashboard Styling */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -140,9 +147,11 @@
         }
 
         td {
-            padding: 15px;
+            padding: 12px 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: #fff;
+            font-size: 0.92rem;
+            word-break: break-word;
         }
 
         tr:last-child td {
@@ -163,6 +172,38 @@
             color: #ff6b6b;
             margin-top: 10px;
             font-size: 0.85rem;
+        }
+
+        .dl-btn {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            background: transparent;
+            color: #ffe27a;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .dl-btn:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .abs-count-badge {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            background: rgba(212, 175, 55, 0.18);
+            color: #f4d97a;
+            font-size: 0.85rem;
+            font-family: 'Overlock', cursive;
         }
 
         @media (max-width: 600px) {
@@ -203,6 +244,8 @@
             </div>
         </div>
 
+        <!-- Event Breakdown Table -->
+        <h2 class="section-title">Event Registrations</h2>
         <div class="table-container">
             <table>
                 <thead>
@@ -214,6 +257,31 @@
                 <tbody id="eventRows">
                     <tr>
                         <td colspan="2" class="loading">Fetching data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Abstracts Table -->
+        <h2 class="section-title">
+            Uploaded Abstracts
+            <span class="abs-count-badge" id="absCount">0</span>
+        </h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Event</th>
+                        <th>File Name</th>
+                        <th>Uploaded At</th>
+                        <th style="text-align:center;">Download</th>
+                    </tr>
+                </thead>
+                <tbody id="abstractRows">
+                    <tr>
+                        <td colspan="6" class="loading">Fetching abstracts...</td>
                     </tr>
                 </tbody>
             </table>
@@ -237,6 +305,7 @@
                     document.getElementById('authPanel').style.display = 'none';
                     document.getElementById('dashboard').style.display = 'block';
                     loadData(await res.json());
+                    loadAbstracts();
                 } else {
                     errorEl.textContent = "Incorrect password. Please try again.";
                 }
@@ -261,6 +330,65 @@
             } else {
                 tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:20px; color:#666;">No individual event data available yet.</td></tr>';
             }
+        }
+
+        async function loadAbstracts() {
+            const tbody = document.getElementById('abstractRows');
+            try {
+                const res = await fetch('/api/public-stats/abstracts', {
+                    headers: { 'x-stats-password': _pwd }
+                });
+
+                if (!res.ok) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ff8080;">Could not load abstracts.</td></tr>';
+                    return;
+                }
+
+                const json = await res.json();
+                document.getElementById('absCount').textContent = json.count;
+
+                if (!json.data || json.data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#666;">No abstracts uploaded yet.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = json.data.map(a => {
+                    const d = a.uploadedAt ? new Date(a.uploadedAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
+                    const eventLabel = (a.event || '').split(',').map(e => e.trim()).filter(Boolean)
+                        .filter(e => ['INNOVATEX', 'INTELLICARE'].includes(e.toUpperCase()))
+                        .join(', ') || a.event;
+                    return `
+                    <tr>
+                        <td style="color:#cfd8ff; font-weight:700;">${a.username || '-'}</td>
+                        <td>${a.email || '-'}</td>
+                        <td style="color:#ffe27a;">${eventLabel}</td>
+                        <td style="font-size:0.82rem; opacity:0.8;">${a.originalName || '-'}</td>
+                        <td style="font-size:0.82rem;">${d}</td>
+                        <td style="text-align:center;">
+                            <a class="dl-btn" href="/api/public-stats/abstracts/download/${encodeURIComponent(a.filename)}"
+                               onclick="downloadAbstract(event, this)" target="_blank">⬇ Download</a>
+                        </td>
+                    </tr>`;
+                }).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#ff8080;">Error loading abstracts.</td></tr>';
+            }
+        }
+
+        function downloadAbstract(e, anchor) {
+            e.preventDefault();
+            const url = anchor.href;
+            fetch(url, { headers: { 'x-stats-password': _pwd } })
+                .then(async res => {
+                    if (!res.ok) { alert('Download failed or access denied.'); return; }
+                    const blob = await res.blob();
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = decodeURIComponent(url.split('/').pop());
+                    a.click();
+                    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+                })
+                .catch(() => alert('Download error.'));
         }
     </script>
 </body>

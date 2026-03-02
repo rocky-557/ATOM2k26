@@ -34,6 +34,15 @@ const registrationSchema = new mongoose.Schema({
     registration_date: {
         type: Date,
         default: Date.now
+    },
+    absUploaded: {
+        type: Boolean,
+        default: false
+    },
+    abstractFile: {
+        filename: { type: String, default: null },
+        originalName: { type: String, default: null },
+        uploadedAt: { type: Date, default: null }
     }
 });
 

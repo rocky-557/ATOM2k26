@@ -4,9 +4,12 @@
 // Database: MongoDB via Mongoose
 // ──────────────────────────────────────
 
+const path = require('path');
+const fs = require('fs');
 const User = require('../models/User');
 const Registration = require('../models/Registration');
 const bcrypt = require('bcryptjs');
+
 
 /**
  * GET /api/admin/registrations?event=EVENT_NAME
@@ -181,11 +184,85 @@ async function getPublicStats(req, res, next) {
     }
 }
 
+/**
+ * GET /api/public-stats/abstracts
+ * Returns list of uploaded abstracts — same stats password protection.
+ */
+async function getPublicAbstracts(req, res, next) {
+    try {
+        const password = req.headers['x-stats-password'];
+        if (password !== 'atom2k26') {
+            return res.status(401).json({ error: 'Unauthorized stats access.' });
+        }
+
+        const regs = await Registration.find({ absUploaded: true }, 'username email evname abstractFile').lean();
+        const data = regs.map(r => ({
+            id: r._id,
+            username: r.username,
+            email: r.email,
+            event: r.evname,
+            originalName: r.abstractFile?.originalName,
+            filename: r.abstractFile?.filename,
+            uploadedAt: r.abstractFile?.uploadedAt
+        }));
+        res.json({ count: data.length, data });
+    } catch (err) {
+        next(err);
+    }
+}
+
+/**
+ * GET /api/admin/abstracts
+ * Returns list of all uploaded abstracts with metadata (requires admin auth).
+ */
+async function getAbstractsList(req, res, next) {
+    try {
+        const regs = await Registration.find({ absUploaded: true }, 'username email evname abstractFile').lean();
+        const data = regs.map(r => ({
+            id: r._id,
+            username: r.username,
+            email: r.email,
+            event: r.evname,
+            originalName: r.abstractFile?.originalName,
+            filename: r.abstractFile?.filename,
+            uploadedAt: r.abstractFile?.uploadedAt
+        }));
+        res.json({ count: data.length, data });
+    } catch (err) {
+        next(err);
+    }
+}
+
+/**
+ * GET /api/admin/abstracts/download/:filename
+ * Streams the PDF file to the client.
+ */
+async function downloadAbstract(req, res, next) {
+    try {
+        const { filename } = req.params;
+        // Security: ensure no path traversal
+        if (filename.includes('..') || filename.includes('/')) {
+            return res.status(400).json({ error: 'Invalid filename.' });
+        }
+        const filePath = path.join(__dirname, '../uploads/abstracts', filename);
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ error: 'File not found.' });
+        }
+        res.download(filePath, filename);
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     getRegistrations,
     getStats,
     getUnregisteredUsers,
     searchUsers,
     resetUserPassword,
-    getPublicStats
+    getPublicStats,
+    getPublicAbstracts,
+    getAbstractsList,
+    downloadAbstract
 };
+

@@ -123,6 +123,23 @@
 
     <button class="register-btn" id="regBtn" onclick="handleRegisterEvent()">Register Now</button>
 
+    <!-- ================= ABSTRACT UPLOAD (paper events only) ================= -->
+    <div id="abstractSection" style="display:none; margin-top:2rem;">
+      <div id="absUploaded" style="display:none;" class="abstract-done">
+        🎉 <strong>Abstract Uploaded</strong> — your PDF has been received.<br>
+        <span id="absUploadedName" style="font-size:0.85rem; opacity:0.75;"></span>
+        <span id="absUploadedTime" style="font-size:0.85rem; opacity:0.75;"></span>
+      </div>
+      <div id="absUploadForm">
+        <p class="abstract-hint">📄 Upload your abstract (PDF only, max 10 MB):</p>
+        <div class="abstract-upload-row">
+          <input type="file" id="abstractFile" accept=".pdf,application/pdf" class="abstract-file-input">
+          <button class="abstract-upload-btn" id="uploadBtn" onclick="handleUploadAbstract()">Upload PDF</button>
+        </div>
+        <p id="uploadMsg" style="margin-top:0.5rem; font-size:0.85rem;"></p>
+      </div>
+    </div>
+
   </section>
 
   <!-- ================= LOGIN POPUP ================= -->
@@ -482,6 +499,91 @@
 
     function goToLogin() {
       window.location.href = "login.html";
+    }
+
+    /* ================= ABSTRACT UPLOAD ================= */
+    const PAPER_EVENTS_KEYS = ['innovatex', 'intellicare'];
+    const isPaperEvent = PAPER_EVENTS_KEYS.includes(eventKey);
+
+    if (isPaperEvent) {
+      // Check status on load
+      checkAbstractStatus();
+    }
+
+    async function checkAbstractStatus() {
+      try {
+        const res = await fetch(`/api/events/abstract-status?event=${eventKey.toUpperCase()}`);
+        if (!res.ok) return; // not logged in — silently skip
+        const data = await res.json();
+
+        if (!data.registered) return; // not registered — keep upload section hidden
+
+        document.getElementById('abstractSection').style.display = 'block';
+
+        if (data.absUploaded) {
+          showAbstractDone(data.originalName, data.uploadedAt);
+        }
+      } catch (e) {
+        // Silently ignore (user not logged in etc.)
+      }
+    }
+
+    function showAbstractDone(name, uploadedAt) {
+      document.getElementById('absUploaded').style.display = 'block';
+      document.getElementById('absUploadForm').style.display = 'none';
+      if (name) document.getElementById('absUploadedName').textContent = '📎 ' + name;
+      if (uploadedAt) {
+        const d = new Date(uploadedAt);
+        document.getElementById('absUploadedTime').textContent =
+          '  ·  Uploaded: ' + d.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+      }
+    }
+
+    async function handleUploadAbstract() {
+      const fileInput = document.getElementById('abstractFile');
+      const msg = document.getElementById('uploadMsg');
+      const btn = document.getElementById('uploadBtn');
+
+      if (!fileInput.files || !fileInput.files[0]) {
+        msg.style.color = '#ff8080';
+        msg.textContent = '⚠️ Please select a PDF file first.';
+        return;
+      }
+
+      const file = fileInput.files[0];
+      if (file.type !== 'application/pdf') {
+        msg.style.color = '#ff8080';
+        msg.textContent = '⚠️ Only PDF files are accepted.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Uploading...';
+      msg.style.color = '#cfd8ff';
+      msg.textContent = '';
+
+      try {
+        const formData = new FormData();
+        formData.append('abstract', file);
+
+        const res = await fetch(`/api/events/upload-abstract?event=${eventKey.toUpperCase()}`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Upload failed.');
+
+        msg.style.color = '#7fffb0';
+        msg.textContent = '✅ ' + data.message;
+        setTimeout(() => showAbstractDone(data.originalName, new Date().toISOString()), 800);
+      } catch (err) {
+        msg.style.color = '#ff8080';
+        msg.textContent = '⚠️ ' + err.message;
+        btn.disabled = false;
+        btn.textContent = 'Upload PDF';
+      }
     }
   </script>
 
