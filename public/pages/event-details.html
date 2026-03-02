@@ -484,6 +484,11 @@
         const regData = await regRes.json();
         console.log("Registration response:", regData);
         alert("🎉 Registration successful! See you at " + eventTitle);
+
+        // For paper events, immediately reveal the abstract upload section
+        if (isPaperEvent) {
+          checkAbstractStatus();
+        }
       } catch (err) {
         console.error("Registration error:", err);
         alert("⚠️ " + err.message);
